@@ -1,4 +1,4 @@
-# Quick Repair
+# QuickFix
 
 ### Problem description
 
