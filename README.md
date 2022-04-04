@@ -40,7 +40,7 @@ System | Technology | Capabilities
 :---:|:---:|:---:
 Server | .NET Core | Provide data to clients, Send Email, Push notifications
 Mobile APP | Kotlin | Use server to communicate with other clients
-Web Server | React | Use server to modify administrative data
+Web app | React | Use server to modify administrative data
 Database | PostgreSQL | Relational database
 
 **The Mobile App only supports Android**
