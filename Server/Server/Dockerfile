@@ -1,22 +1,15 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-dev
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-WORKDIR /src
-COPY ["Server/Server.csproj", "Server/"]
-RUN dotnet restore "Server/Server.csproj"
-COPY . .
-WORKDIR "/src/Server"
-RUN dotnet build "Server.csproj" -c Release -o /app/build
+COPY Server.csproj .
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish "Server.csproj" -c Release -o /app/publish
+COPY . ./
 
-FROM base AS final
+RUN dotnet publish Server.csproj -c Release -o /app/out
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Server.dll"]
+COPY --from=build-dev /app/out .
+
+ENTRYPOINT ["dotnet", "Server.dll", "--migrate"]
