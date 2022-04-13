@@ -50,7 +50,7 @@ namespace Server
 
             app.UseCors("EnableAll");
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
