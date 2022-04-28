@@ -1,0 +1,19 @@
+.Container{
+    position: relative;
+
+}
+.paperStyle {
+    padding: 20px;
+    height: 70vh;
+    width: 280px;
+    margin: 20px auto;
+}
+.btnstyle {
+    margin: 8px 0;
+    color: #61dafb;
+    border: 50px;
+}
+
+.linkToRegister{
+    color: #282c34;
+}
