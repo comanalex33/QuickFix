@@ -1,11 +1,11 @@
 ﻿using Server.Models;
-using Server.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers
 {
@@ -14,36 +14,118 @@ namespace Server.Controllers
     public class UserController : ControllerBase
     {
 
-        private readonly AppDbContext _context;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userModel;
 
-        public UserController(AppDbContext context)
+        public UserController(UserManager<User> userModel, RoleManager<Role> roleManager)
         {
-            _context = context;
+            _roleManager = roleManager;
+            _userModel = userModel;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetAllUsers()
+        [Route("roles/{roleName}")]
+        public async Task<ActionResult<IEnumerable<Role>>> GetUsersByRole(string roleName)
         {
-            return await _context.Users.ToListAsync();
+            if (roleName.Equals("all"))
+            {
+                return Ok(await _userModel.Users.ToListAsync());
+            }
+            return Ok(await _userModel.GetUsersInRoleAsync(roleName));
+        }
+
+        [HttpGet]
+        [Route("{username}/roles")]
+        public async Task<ActionResult<IEnumerable<string>>> GetUserRoles(string username)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if(user == null)
+            {
+                return BadRequest("User " + username + " not found");
+            }
+            var roles = await _userModel.GetRolesAsync(user);
+            return Ok(roles);
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserModel>> AddUser(UserRequestModel requestUser)
+        [Route("roles/{username}/makeadmin")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<string>> MakeAdmin(string username)
         {
-            long Id = _context.Users.Count() + 1;
-
-            var userIdCheck = await _context.Users.FindAsync(Id);
-            while(userIdCheck != null)
+            var user = await _userModel.FindByNameAsync(username);
+            if(user == null)
             {
-                Id = Id + 1;
-                userIdCheck = await _context.Users.FindAsync(Id);
+                return BadRequest("User does not exists");
             }
+            var roles = await _userModel.GetRolesAsync(user);
+            if(roles.Any())
+            {
+                return BadRequest("This user already has a role");
+            }
+            await _userModel.AddToRoleAsync(user, "admin");
+            return Ok("User " + username + " is admin now");
+        }
 
-            UserModel user = new UserModel(Id, requestUser);
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+        [HttpPost]
+        [Route("{username}/roles/{role}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> AddRole(string username, string role)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound("User does not exists");
+            }
+            var roles = await _userModel.GetRolesAsync(user);
+            if (roles.Any())
+            {
+                return BadRequest("This user already has a role");
+            }
+            if (!role.Equals("student") && !role.Equals("handyman"))
+            {
+                return BadRequest("Not an existing role");
+            }
+            await _userModel.AddToRoleAsync(user, role);
+            return Ok("User " + username + " is " + role + " now");
+        }
 
-            return user;
+        [HttpDelete]
+        [Route("roles/{username}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<string>> RemoveRole(string username)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound("User does not exists");
+            }
+            var roles = await _userModel.GetRolesAsync(user);
+            if (!roles.Any())
+            {
+                return BadRequest("This user doesn't has a role");
+            }
+            string[] list = new string[1];
+            list[0] = roles[0];
+            await _userModel.RemoveFromRolesAsync(user, list);
+            return Ok("Removed role " + roles[0] + " from " + username);
+        }
+
+        [HttpDelete]
+        [Route("users/{username}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<string>> DeleteUser(string username)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound("User does not exists");
+            }
+            var result = await _userModel.DeleteAsync(user);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok("User " + username + " deleted");
         }
     }
 }
