@@ -33,7 +33,7 @@ namespace Server
             services.AddControllers();
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("Database2")));
+                options.UseNpgsql(Configuration.GetConnectionString("Database")));
 
             services.AddCors(options => options.AddPolicy("EnableAll", builder =>
             {
