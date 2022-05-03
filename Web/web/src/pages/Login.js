@@ -4,6 +4,7 @@ import '../styles/Login.css'
 import axios from "axios";
 
 
+
 function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -49,7 +50,7 @@ function Login(){
 
     return(
         <div>
-            <div>
+            <div className="loginTitle">
                 <h2>Welcome!</h2>
             </div>
             <div className="Container">
@@ -60,10 +61,11 @@ function Login(){
                         </Grid>
                         <TextField label='Username' placeholder='Enter username' fullWidth required onChange={handleUsernameChange}/>
                         <TextField label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handlePasswordChange}/>
-
-                        <Button className="btnstyle" onClick={handleLoginButtonClick} variant="contained" fullWidth color="primary">Sign in</Button>
-                        <Typography className="linkToRegister"> Do you have an account ?
-                            <Link href="#" >
+                        <div className="btnstyle">
+                        <Button onClick={handleLoginButtonClick} type="submit" variant="contained" color="primary">Sign in</Button>
+                        </div>
+                        <Typography className="linkToRegister"> Don't have an account?
+                            <Link href="/register"  >
                                 Sign Up
                             </Link>
                         </Typography>
