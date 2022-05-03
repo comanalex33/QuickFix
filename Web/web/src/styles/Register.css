@@ -1,0 +1,30 @@
+.paperStyle {
+    padding: 30px 20px;
+    width: 300px;
+    margin: 20px auto
+}
+
+.headerStyle {
+    margin: 0
+}
+.avatarStyle {
+    backgroundColor: '#1bbd7e'
+}
+
+.marginTop {
+    marginTop: 5
+}
+.form{
+    padding: 10px;
+}
+
+.registerTitle{
+    text-align: center;
+    margin: 20px;
+}
+
+.registerButton{
+    margin: 20px;
+    text-align: center;
+    align-items: center;
+}
