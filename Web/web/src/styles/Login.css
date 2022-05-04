@@ -1,0 +1,26 @@
+.Container{
+    position: relative;
+
+}
+.paperStyle {
+    padding: 20px;
+    height: 70vh;
+    width: 280px;
+    margin: 20px auto;
+}
+.btnstyle {
+    margin: 8px 0;
+    color: #fb617d;
+    border: 50px;
+    text-align: center;
+}
+
+.linkToRegister{
+    color: #282c34;
+    text-align: center;
+}
+
+.loginTitle{
+    text-align: center;
+    margin: 20px;
+}
