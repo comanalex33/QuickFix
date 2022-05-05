@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import app.quic.mobile.services.LoggedInUser
 import app.quic.mobile.R
 import app.quic.mobile.activities.MainActivity
 
@@ -18,7 +19,7 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         val toolbarTitle = (activity as MainActivity).toolbar.findViewById<TextView>(R.id.toolbar_title)
-        toolbarTitle.text = "Home"
+        toolbarTitle.text = "Home ${LoggedInUser.getUserRole()}"
 
         return view
     }

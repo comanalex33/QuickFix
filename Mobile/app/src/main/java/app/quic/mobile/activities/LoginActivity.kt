@@ -4,12 +4,25 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import app.quic.mobile.services.LoggedInUser
 import app.quic.mobile.R
+import app.quic.mobile.models.ErrorModel
+import app.quic.mobile.models.LoginModel
+import app.quic.mobile.models.TokenModel
+import app.quic.mobile.services.ApiClient
+import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
+    private lateinit var usernameField: EditText
+    private lateinit var passwordField: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton = findViewById(R.id.login_button)
         registerButton = findViewById(R.id.register_button)
+        usernameField = findViewById(R.id.username_login)
+        passwordField = findViewById(R.id.password_login)
 
         registerButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -24,8 +39,31 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            val loginModel = LoginModel(usernameField.text.toString(), passwordField.text.toString())
+            val loginCall: Call<TokenModel> = ApiClient.getService().login(loginModel)
+
+            loginCall.enqueue(object : Callback<TokenModel> {
+                override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
+                    if(response.isSuccessful) {
+                            LoggedInUser.setConnection(response.body()?.token)
+                            val intent = Intent(applicationContext, MainActivity::class.java)
+                            startActivity(intent)
+                    } else {
+                        val gson = Gson()
+                        val error = gson.fromJson(response.errorBody()?.string(), ErrorModel::class.java)
+                        Toast.makeText(
+                            applicationContext,
+                            error.title,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<TokenModel>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                }
+
+            })
         }
     }
 }
