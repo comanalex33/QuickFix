@@ -34,16 +34,15 @@ function Register() {
         }
 
         let user = {
-            name: username,
+            username: username,
             email: email,
-            password: password,
-            role: "admin",
+            password: password
         };
 
-        axios.post('http://3.66.157.143/api/User', user)
+        axios.post('http://3.66.157.143/api/Auth/register', user)
             .then(res => {
-                console.log(res);
-                navigate('/login')
+                alert("User was successully added")
+                console.log(res.data)
             })
             .catch(err => {
                 console.log(err)
@@ -68,7 +67,7 @@ function Register() {
     return (
         <div>
             <div className="registerTitle">
-                <h2>Register Page</h2>
+                <h2>QuickFix</h2>
             </div>
             <div>
                 <Grid>
@@ -81,8 +80,8 @@ function Register() {
                         <form className="form">
                             <TextField fullWidth label='Name' placeholder="Enter your name" onChange={handleUsernameChange}/>
                             <TextField fullWidth label='Email' placeholder="Enter your email" onChange={handleEmailChange} />
-                            <TextField fullWidth label='Password' placeholder="Enter your password" onChange={handlePasswordChange}/>
-                            <TextField fullWidth label='Confirm Password' placeholder="Confirm your password" onChange={handleRePasswordChange}/>
+                            <TextField fullWidth type="password" label='Password' placeholder="Enter your password" onChange={handlePasswordChange}/>
+                            <TextField fullWidth type="password" label='Confirm Password' placeholder="Confirm your password" onChange={handleRePasswordChange}/>
                             <div className="registerButton">
                                 <Button  type='submit' variant='contained' color='primary' onClick={handleSignUp} >Sign up</Button>
                             </div>

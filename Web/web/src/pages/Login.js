@@ -2,42 +2,41 @@ import React, {useEffect, useState} from 'react'
 import { Grid,Paper, TextField, Button, Typography,Link } from '@mui/material'
 import '../styles/Login.css'
 import axios from "axios";
-
-
+import {useNavigate} from "react-router-dom";
 
 function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [users, setUsers] = useState([]);
+    const [token,setToken]=useState('')
 
-    useEffect(() => {
-        axios.get('http://3.66.157.143/api/User')
-            .then(res => {
-                setUsers(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }, [])
+    const navigate=useNavigate()
 
+    function handleLoginButtonClick () {
+        if(username==''){
+            alert("Username field is empty!")
+        }
 
-    function found(username, password) {
-        for (const user of users) {
-            if (user.name === username && user.password === password) {
-                console.log(user.name)
-                return user
+        if(password==''){
+            alert("Password field is empty!")
+        }
+        else {
+            let user = {
+                username: username,
+                password: password
             }
-        }
-        return null
-    }
+            axios.post('http://3.66.157.143/api/Auth/login', user)
+                .then(res => {
+                    setToken(res.data)
+                    console.log(res.data)
 
-    const handleLoginButtonClick = () => {
-        const user = found(username, password)
-        if (user === null) {
-            alert("Wrong credentials")
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+            navigate("/dashboard", {state: username})
         }
-        else
-            alert("Hello " + username)
     }
 
     const handleUsernameChange = event => {
@@ -54,7 +53,7 @@ function Login(){
                 <h2>Welcome!</h2>
             </div>
             <div className="Container">
-                <Grid spacing={5}>
+                <Grid>
                     <Paper elevation={10} className="paperStyle">
                         <Grid align='center' >
                             <h2>Sign In</h2>
