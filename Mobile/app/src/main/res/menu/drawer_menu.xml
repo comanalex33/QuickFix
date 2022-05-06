@@ -13,5 +13,15 @@
             android:title="Requests"
             android:icon="@drawable/ic_requests"
             app:showAsAction="never"/>
+        <item
+            android:id="@+id/nav_make_request"
+            android:title="Make new request"
+            android:icon="@drawable/ic_new"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout"
+            android:icon="@drawable/ic_logout"
+            app:showAsAction="never"/>
     </group>
 </menu>
