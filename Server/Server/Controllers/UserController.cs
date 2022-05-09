@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
