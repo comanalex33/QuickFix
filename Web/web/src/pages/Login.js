@@ -14,7 +14,6 @@ function Login(){
     const [buttonSignIn,setButtonSignIn]=useState(false)
 
     const navigate=useNavigate()
-
     const closeModal = () => setButtonSignIn(false);
 
     function handleLoginButtonClick () {
@@ -59,7 +58,6 @@ function Login(){
     return(
         <div>
             <div className="loginTitle">
-                <h2>Welcome!</h2>
             </div>
             <div className="Container">
                 <Grid>
