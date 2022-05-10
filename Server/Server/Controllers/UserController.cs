@@ -49,8 +49,8 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        [Route("{username}/roles")]
-        public async Task<ActionResult<IEnumerable<string>>> GetUserRoles(string username)
+        [Route("{username}/role")]
+        public async Task<ActionResult<string>> GetUserRoles(string username)
         {
             var user = await _userModel.FindByNameAsync(username);
             if(user == null)
@@ -58,7 +58,7 @@ namespace Server.Controllers
                 return BadRequest("User " + username + " not found");
             }
             var roles = await _userModel.GetRolesAsync(user);
-            return Ok(roles);
+            return Ok(roles[0]);
         }
 
         [HttpPost]
