@@ -19,8 +19,13 @@ import app.quic.mobile.dialogs.ProfileDialog
 import app.quic.mobile.fragments.HomeFragment
 import app.quic.mobile.fragments.MakeRequestFragment
 import app.quic.mobile.fragments.RequestsFragment
+import app.quic.mobile.models.UserModel
+import app.quic.mobile.services.ApiClient
 import app.quic.mobile.services.LoggedInUser
 import com.google.android.material.navigation.NavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -28,6 +33,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     internal lateinit var toolbar: Toolbar
     private lateinit var actionBarToggle: ActionBarDrawerToggle
+
+    private lateinit var userModel: UserModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +48,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setupVisibility()
 
+        getUserData()
         val userProfilePicture = findViewById<ImageView>(R.id.toolbar_profile)
         userProfilePicture.setOnClickListener {
             val dialog = ProfileDialog()
+            dialog.setUserData(userModel)
             dialog.show(this.supportFragmentManager, "ProfileDialog")
         }
     }
@@ -105,5 +114,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setPageVisibility(fragment: Fragment, menuId: Int, pages: Array<String>) {
         val menuItem = navigationView.menu.findItem(menuId)
         menuItem.isVisible = pages.contains(fragment::class.simpleName)
+    }
+
+    private fun getUserData() {
+        val getDataCall: Call<UserModel> = ApiClient.getService().getUserData(LoggedInUser.username!!)
+
+        getDataCall.enqueue(object : Callback<UserModel> {
+            override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                if (response.isSuccessful) {
+                    userModel = response.body()!!
+                } else {
+                    Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+            }
+
+        })
     }
 }

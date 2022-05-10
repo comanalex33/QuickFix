@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2"
+        android:weightSum="3"
         android:layout_marginTop="20dp">
         <TextView
             android:layout_weight="1"
@@ -36,12 +36,15 @@
             android:layout_height="wrap_content"
             android:text="Role"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:gravity="center"/>
         <TextView
-            android:layout_weight="1"
+            android:id="@+id/profile_role"
+            android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="RoleTest"
+            android:textSize="20sp"
             android:textColor="@color/black"
             android:gravity="center"/>
     </LinearLayout>
@@ -50,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:layout_marginTop="20dp">
             <TextView
                 android:layout_weight="1"
@@ -58,12 +61,15 @@
                 android:layout_height="wrap_content"
                 android:text="Username"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:gravity="center"/>
             <TextView
-                android:layout_weight="1"
+                android:id="@+id/profile_username"
+                android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="UsernameTest"
+                android:textSize="20sp"
                 android:textColor="@color/black"
                 android:gravity="center"/>
         </LinearLayout>
@@ -72,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:layout_marginTop="20dp">
             <TextView
                 android:layout_weight="1"
@@ -80,10 +86,11 @@
                 android:layout_height="wrap_content"
                 android:text="Email"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:gravity="center"/>
             <EditText
                 android:id="@+id/profile_email"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_width="0dp"
                 android:background="@color/white"
                 android:layout_height="wrap_content"
@@ -96,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:layout_marginTop="20dp">
             <TextView
                 android:layout_weight="1"
@@ -104,10 +111,11 @@
                 android:layout_height="wrap_content"
                 android:text="Building"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:gravity="center"/>
             <EditText
                 android:id="@+id/profile_building"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_width="0dp"
                 android:background="@color/white"
                 android:layout_height="wrap_content"
@@ -122,6 +130,7 @@
             android:layout_marginTop="10dp">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/curve_shape"
