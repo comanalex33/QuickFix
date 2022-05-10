@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
             loginCall.enqueue(object : Callback<TokenModel> {
                 override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
                     if(response.isSuccessful) {
-                        LoggedInUser.setConnection(response.body()?.token)
+                        LoggedInUser.setConnection(response.body()?.token, usernameField.text.toString())
                         if(LoggedInUser.getUserRole() == "admin")
                             Toast.makeText(
                                 applicationContext,

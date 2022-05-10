@@ -9,18 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers
 {
-    [Route("api/user")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
 
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userModel;
+        private readonly AppDbContext _context;
 
-        public UserController(UserManager<User> userModel, RoleManager<Role> roleManager)
+        public UserController(UserManager<User> userModel, RoleManager<Role> roleManager, AppDbContext context)
         {
             _roleManager = roleManager;
             _userModel = userModel;
+            _context = context;
         }
 
         [HttpGet]
@@ -35,8 +37,20 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        [Route("{username}/roles")]
-        public async Task<ActionResult<IEnumerable<string>>> GetUserRoles(string username)
+        [Route("{username}")]
+        public async Task<ActionResult<Role>> GetUserByName(string username)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if (user == null)
+            {
+                return BadRequest("User " + username + " not found");
+            }
+            return Ok(user);
+        }
+
+        [HttpGet]
+        [Route("{username}/role")]
+        public async Task<ActionResult<string>> GetUserRoles(string username)
         {
             var user = await _userModel.FindByNameAsync(username);
             if(user == null)
@@ -44,11 +58,33 @@ namespace Server.Controllers
                 return BadRequest("User " + username + " not found");
             }
             var roles = await _userModel.GetRolesAsync(user);
-            return Ok(roles);
+            return Ok(roles[0]);
         }
 
         [HttpPost]
-        [Route("roles/{username}/makeadmin")]
+        [Route("{username}/buildings/{id}")]
+        [Authorize(Roles ="admin,student,handyman")]
+        public async Task<ActionResult<Role>> AddBuilding(string username, long id)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if (user == null)
+            {
+                return BadRequest("User " + username + " not found");
+            }
+            var building = await _context.Building.FindAsync(id);
+            if (building == null)
+            {
+                return BadRequest("This building does not exist!");
+            }
+
+            user.buildingId = id;
+
+            await _userModel.UpdateAsync(user);
+            return Ok(user);
+        }
+
+        [HttpPost]
+        [Route("{username}/makeadmin")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> MakeAdmin(string username)
         {
@@ -90,7 +126,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete]
-        [Route("roles/{username}")]
+        [Route("{username}/removeRole")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> RemoveRole(string username)
         {
@@ -111,7 +147,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete]
-        [Route("users/{username}")]
+        [Route("{username}")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> DeleteUser(string username)
         {

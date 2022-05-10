@@ -12,7 +12,7 @@ using System;
 
 namespace Server.Controllers
 {
-    [Route("api/building")]
+    [Route("api/buildings")]
     [ApiController]
     public class BuildingController : ControllerBase
     {
@@ -61,7 +61,6 @@ namespace Server.Controllers
             return build;
         }
 
-        
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<BuildingModel>> Delete(long id)
