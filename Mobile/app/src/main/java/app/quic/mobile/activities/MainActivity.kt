@@ -5,6 +5,7 @@ import android.net.wifi.WifiManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresFeature
@@ -14,6 +15,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import app.quic.mobile.R
+import app.quic.mobile.dialogs.ProfileDialog
 import app.quic.mobile.fragments.HomeFragment
 import app.quic.mobile.fragments.MakeRequestFragment
 import app.quic.mobile.fragments.RequestsFragment
@@ -38,6 +40,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         setupVisibility()
+
+        val userProfilePicture = findViewById<ImageView>(R.id.toolbar_profile)
+        userProfilePicture.setOnClickListener {
+            val dialog = ProfileDialog()
+            dialog.show(this.supportFragmentManager, "ProfileDialog")
+        }
     }
 
     private fun setupDrawer() {

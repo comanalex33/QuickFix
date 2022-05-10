@@ -27,6 +27,7 @@
                 android:text="Test" />
             
             <ImageView
+                android:id="@+id/toolbar_profile"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="20dp"

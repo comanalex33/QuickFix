@@ -61,7 +61,6 @@ namespace Server.Controllers
             return build;
         }
 
-        
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<BuildingModel>> Delete(long id)

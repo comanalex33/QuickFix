@@ -16,11 +16,13 @@ namespace Server.Controllers
 
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userModel;
+        private readonly AppDbContext _context;
 
-        public UserController(UserManager<User> userModel, RoleManager<Role> roleManager)
+        public UserController(UserManager<User> userModel, RoleManager<Role> roleManager, AppDbContext context)
         {
             _roleManager = roleManager;
             _userModel = userModel;
+            _context = context;
         }
 
         [HttpGet]
@@ -35,6 +37,18 @@ namespace Server.Controllers
         }
 
         [HttpGet]
+        [Route("{username}")]
+        public async Task<ActionResult<Role>> GetUserByName(string username)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if (user == null)
+            {
+                return BadRequest("User " + username + " not found");
+            }
+            return Ok(user);
+        }
+
+        [HttpGet]
         [Route("{username}/roles")]
         public async Task<ActionResult<IEnumerable<string>>> GetUserRoles(string username)
         {
@@ -45,6 +59,27 @@ namespace Server.Controllers
             }
             var roles = await _userModel.GetRolesAsync(user);
             return Ok(roles);
+        }
+
+        [HttpPost]
+        [Route("{username}/buildings/{id}")]
+        public async Task<ActionResult<Role>> AddBuilding(string username, long id)
+        {
+            var user = await _userModel.FindByNameAsync(username);
+            if (user == null)
+            {
+                return BadRequest("User " + username + " not found");
+            }
+            var building = await _context.Building.FindAsync(id);
+            if (building == null)
+            {
+                return BadRequest("This building does not exist!");
+            }
+
+            user.buildingId = id;
+
+            await _userModel.UpdateAsync(user);
+            return Ok(user);
         }
 
         [HttpPost]
