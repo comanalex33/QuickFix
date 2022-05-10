@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers
 {
-    [Route("api/user")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -63,6 +63,7 @@ namespace Server.Controllers
 
         [HttpPost]
         [Route("{username}/buildings/{id}")]
+        [Authorize(Roles ="admin,student,handyman")]
         public async Task<ActionResult<Role>> AddBuilding(string username, long id)
         {
             var user = await _userModel.FindByNameAsync(username);
@@ -83,7 +84,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        [Route("roles/{username}/makeadmin")]
+        [Route("{username}/makeadmin")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> MakeAdmin(string username)
         {
@@ -125,7 +126,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete]
-        [Route("roles/{username}")]
+        [Route("{username}/removeRole")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> RemoveRole(string username)
         {
@@ -146,7 +147,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete]
-        [Route("users/{username}")]
+        [Route("{username}")]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> DeleteUser(string username)
         {

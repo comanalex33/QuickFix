@@ -12,7 +12,7 @@ using System;
 
 namespace Server.Controllers
 {
-    [Route("api/building")]
+    [Route("api/buildings")]
     [ApiController]
     public class BuildingController : ControllerBase
     {
