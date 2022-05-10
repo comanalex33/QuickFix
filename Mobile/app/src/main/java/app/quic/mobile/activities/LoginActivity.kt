@@ -45,9 +45,18 @@ class LoginActivity : AppCompatActivity() {
             loginCall.enqueue(object : Callback<TokenModel> {
                 override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
                     if(response.isSuccessful) {
-                            LoggedInUser.setConnection(response.body()?.token)
+                        LoggedInUser.setConnection(response.body()?.token)
+                        if(LoggedInUser.getUserRole() == "admin")
+                            Toast.makeText(
+                                applicationContext,
+                                "Admins must use dedicated site",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        else {
                             val intent = Intent(applicationContext, MainActivity::class.java)
                             startActivity(intent)
+                            finish()
+                        }
                     } else {
                         val gson = Gson()
                         val error = gson.fromJson(response.errorBody()?.string(), ErrorModel::class.java)
