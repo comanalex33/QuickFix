@@ -67,7 +67,6 @@ function Register() {
     return (
         <div>
             <div className="registerTitle">
-                <h2>QuickFix</h2>
             </div>
             <div>
                 <Grid>
