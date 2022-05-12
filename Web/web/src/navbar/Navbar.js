@@ -9,8 +9,7 @@ import {
 import {useNavigate} from "react-router-dom";
 
 const Navbar = () => {
-
-    let isUserLoggedIn=localStorage.getItem('token');
+    let isUserLoggedIn=sessionStorage.getItem('token');
     const navigate=useNavigate();
 
     const handleLogInButton = event =>{
@@ -19,30 +18,32 @@ const Navbar = () => {
 
     const handleLogOutButton = event =>{
         navigate('');
-        localStorage.setItem('token',null);
+        sessionStorage.setItem('token',null);
     }
 
     return (
         <>
             <Nav>
                 <NavLink to="">
-                    <h1>QuickFix</h1>
+                    <h3>QuickFix</h3>
                 </NavLink>
                 <NavMenu>
                     <NavLink to="/dashboard" >
                         Home
                     </NavLink>
+                    {(isUserLoggedIn!='null') &&
                     <NavLink to="/buildings" >
                         Buildings
-                    </NavLink>
+                    </NavLink>}
+                    {(isUserLoggedIn!='null') &&
                     <NavLink to="/users" >
                         Users
-                    </NavLink>
+                    </NavLink>}
                     <NavLink to="/contact" >
                         Contact
                     </NavLink>
                 </NavMenu>
-                {(isUserLoggedIn==="null") ?
+                {(isUserLoggedIn=='null') ?
                     <NavBtn>
                         <NavBtnLink onClick={handleLogInButton}>Sign In</NavBtnLink>
                     </NavBtn> :
