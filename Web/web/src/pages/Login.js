@@ -29,12 +29,12 @@ function Login(){
                 username: username,
                 password: password
             }
-            axios.post('http://3.66.157.143/api/Auth/login', user)
+            axios.post('http://3.66.157.143/api/auth/login', user)
                 .then(res => {
                     const token = res.data.token;
                     const decode = jwt(token);
                     console.log(decode.roles);
-                    localStorage.setItem('token', token);
+                    sessionStorage.setItem('token', token);
                     if(decode.roles==='admin'){
                         navigate("/dashboard", {state: username})
                     }

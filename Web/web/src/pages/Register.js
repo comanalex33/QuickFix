@@ -39,7 +39,7 @@ function Register() {
             password: password
         };
 
-        axios.post('http://3.66.157.143/api/Auth/register', user)
+        axios.post('http://3.66.157.143/api/auth/register', user)
             .then(res => {
                 alert("User was successully added")
                 console.log(res.data)

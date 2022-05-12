@@ -6,6 +6,7 @@ import Home from "./pages/Home"
 import Navbar from "./navbar/Navbar"
 import Contact from "./pages/Contact"
 import Buildings from "./pages/Buildings"
+import Users from "./pages/Users"
 import {Route, Routes, BrowserRouter, Link} from "react-router-dom";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/buildings" element={<Buildings />} />
+            <Route path="/users" element={<Users />}/>
         </Routes>
     </BrowserRouter>
   );
