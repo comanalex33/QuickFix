@@ -1,6 +1,7 @@
 package app.quic.mobile.services
 
 import app.quic.mobile.models.LoginModel
+import app.quic.mobile.models.RegisterModel
 import app.quic.mobile.models.TokenModel
 import app.quic.mobile.models.UserModel
 import retrofit2.Call
@@ -14,4 +15,6 @@ interface ApiService {
     fun login(@Body model: LoginModel): Call<TokenModel>
     @GET("api/users/{username}")
     fun getUserData(@Path("username") username: String): Call<UserModel>
+    @POST("api/auth/register")
+    fun register(@Body model: RegisterModel): Call<UserModel>
 }
