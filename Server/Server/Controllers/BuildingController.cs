@@ -30,7 +30,6 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BuildingModel>>> GetAllBuildings()
         {
-            _emailService.Send("quickfixpad.test.1@gmail.com", "Test email", "Haha");
              return await _context.Building.ToListAsync();
         }
         
