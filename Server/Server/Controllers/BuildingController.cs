@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Server.Services;
 
 namespace Server.Controllers
 {
@@ -17,10 +18,12 @@ namespace Server.Controllers
     public class BuildingController : ControllerBase
     {
         private readonly AppDbContext _context;
-        
-        public BuildingController(AppDbContext context)
+        private readonly IEmailService _emailService;
+
+        public BuildingController(AppDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         
