@@ -32,21 +32,20 @@ class RegisterActivity : AppCompatActivity() {
         passwordField = findViewById(R.id.password_register)
 
         registerButton.setOnClickListener {
+
             val registerModel = RegisterModel(emailField.text.toString(), usernameField.text.toString(), passwordField.text.toString())
             val registerCall: Call<UserModel> = ApiClient.getService().register(registerModel)
 
             registerCall.enqueue(object : Callback<UserModel> {
                 override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                     if(response.isSuccessful) {
-                            val intent = Intent(applicationContext, LoginActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                        val intent = Intent(applicationContext, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     } else {
-                        val gson = Gson()
-                        val error = gson.fromJson(response.errorBody()?.string(), ErrorModel::class.java)
                         Toast.makeText(
                             applicationContext,
-                            error.title,
+                            response.errorBody()?.string(),
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -59,4 +58,5 @@ class RegisterActivity : AppCompatActivity() {
             })
         }
     }
+
 }

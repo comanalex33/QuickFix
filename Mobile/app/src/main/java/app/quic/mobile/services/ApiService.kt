@@ -17,4 +17,6 @@ interface ApiService {
     fun getUserData(@Path("username") username: String): Call<UserModel>
     @POST("api/auth/register")
     fun register(@Body model: RegisterModel): Call<UserModel>
+    @GET("api/users/{username}")
+    fun isUser(@Body username: String): Call<UserModel>
 }
