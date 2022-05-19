@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbars="none"
     android:focusableInTouchMode="true"
     android:focusable="true"
@@ -88,14 +89,14 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:gravity="center"/>
-            <EditText
+            <TextView
                 android:id="@+id/profile_email"
                 android:layout_weight="2"
                 android:layout_width="0dp"
-                android:background="@color/white"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:text="Test"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="EmailTest"
                 android:gravity="center"/>
         </LinearLayout>
 
@@ -113,15 +114,29 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:gravity="center"/>
-            <EditText
-                android:id="@+id/profile_building"
-                android:layout_weight="2"
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:background="@color/white"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:text="Test"
-                android:gravity="center"/>
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/profile_building_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/profile_building"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    android:text="BuildingTest"
+                    android:gravity="center"
+                    />
+            </RelativeLayout>
+
         </LinearLayout>
 
         <RelativeLayout
@@ -139,9 +154,47 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 android:text="Update"
+                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textAllCaps="false"
                 />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/curve_shape"
+                android:backgroundTint="@color/red"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:text="Cancel"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                />
+
+            <TextView
+                android:id="@+id/profile_message"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"/>
+
+            <ImageView
+                android:id="@+id/profile_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/curve_shape"
+                android:backgroundTint="@color/green"
+                android:src="@drawable/ic_edit"/>
         </RelativeLayout>
     </LinearLayout>
 
