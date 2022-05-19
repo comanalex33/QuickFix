@@ -88,7 +88,7 @@ namespace Server.Controllers
 
                 await AddUser(model, true);
                 var admin = await _userModel.FindByNameAsync(model.Username);
-                SendConfirmationEmail(admin, Request.Headers["origin"]);
+                //SendConfirmationEmail(admin, Request.Headers["origin"]);
 
                 return Ok("User added");
             }
@@ -102,7 +102,7 @@ namespace Server.Controllers
 
             await AddUser(model, false);
             var user = await _userModel.FindByNameAsync(model.Username);
-            SendConfirmationEmail(user, "http://3.66.157.143");
+            //SendConfirmationEmail(user, "http://3.66.157.143");
 
             return Ok("User added");
         }

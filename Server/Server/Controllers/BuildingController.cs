@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Server.Services;
+using Server.RequestModels;
 
 namespace Server.Controllers
 {
@@ -46,18 +47,24 @@ namespace Server.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<BuildingModel>> AddBuilding(string buildingName)
+        public async Task<ActionResult<BuildingModel>> AddBuilding(SimpleRequest requestModel)
         {
-            long Id = _context.Building.Count() + 1;
-
-            var buildCheck = await _context.Building.FindAsync(Id);
-            while (buildCheck != null)
+            var buildingCheck = _context.Building.Where(item => item.Name == requestModel.Name).FirstOrDefault();
+            if(buildingCheck != null)
             {
-                Id = Id + 1;
-                buildCheck = await _context.Building.FindAsync(Id);
+                return BadRequest(new { message = "Building already exists" });
             }
 
-            BuildingModel build = new BuildingModel(Id, buildingName);
+            long Id = _context.Building.Count() + 1;
+
+            buildingCheck = await _context.Building.FindAsync(Id);
+            while (buildingCheck != null)
+            {
+                Id = Id + 1;
+                buildingCheck = await _context.Building.FindAsync(Id);
+            }
+
+            BuildingModel build = new BuildingModel(Id, requestModel.Name);
             _context.Building.Add(build);
             await _context.SaveChangesAsync();
 
