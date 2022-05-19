@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
-
+using Server.RequestModels;
 
 namespace Server.Controllers
 {
@@ -43,18 +43,24 @@ namespace Server.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<CategoryModel>> AddCategory(string categoryName)
+        public async Task<ActionResult<CategoryModel>> AddCategory(SimpleRequest requestModel)
         {
+            var categoryCheck = _context.Category.Where(item => item.Name == requestModel.Name).FirstOrDefault();
+            if (categoryCheck != null)
+            {
+                return BadRequest(new { message = "Category already exists" });
+            }
+
             long Id = _context.Category.Count() + 1;
 
-            var categoryCheck = await _context.Category.FindAsync(Id);
+            categoryCheck = await _context.Category.FindAsync(Id);
             while (categoryCheck != null)
             {
                 Id = Id + 1;
                 categoryCheck = await _context.Category.FindAsync(Id);
             }
 
-            CategoryModel category = new CategoryModel(Id, categoryName);
+            CategoryModel category = new CategoryModel(Id, requestModel.Name);
             _context.Category.Add(category);
             await _context.SaveChangesAsync();
 
