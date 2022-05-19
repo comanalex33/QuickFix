@@ -75,7 +75,7 @@ namespace Server.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult<UserViewModel>> Register(RegisterViewModel model)
+        public async Task<ActionResult<String>> Register(RegisterViewModel model)
         {
             var rolesDoesNotExist = !await _roleManager.RoleExistsAsync("admin");
             var admins = await _userModel.GetUsersInRoleAsync("admin");
