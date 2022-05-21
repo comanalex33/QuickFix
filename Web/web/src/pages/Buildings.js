@@ -9,7 +9,8 @@ const Buildings = () => {
     const[data,setData]=useState([]);
     const[name,setName]=useState('')
     const [buttonAdd,setButtonAdd]=useState(false)
-    const closeModal = () => setButtonAdd(false);
+    const closeModal = () => setButtonAdd(false)
+
     useEffect(() => {
         axios.get('http://18.196.144.212/api/buildings')
             .then(res => {
@@ -21,7 +22,7 @@ const Buildings = () => {
             .catch(err => {
                 console.log(err)
             })
-    },[]);
+    });
 
     const buttonPressed=()=>{
         setButtonAdd(true);
@@ -39,8 +40,6 @@ const Buildings = () => {
 
     }
 
-    console.log(name)
-
     function addNewBuilding(){
         let building={
            name: name
@@ -55,6 +54,16 @@ const Buildings = () => {
             })
     }
 
+    const handleDeleteButton = id => {
+        if(window.confirm("Are you sure you want to delete?"))
+        {
+            console.log(id)
+            axios.delete(`http://18.196.144.212/api/buildings/${id}`,config)
+                .then((response) => {
+                    console.log(response);
+                })
+        }
+    }
 
 
     const buildingsList = data.map((item)=>
@@ -69,7 +78,7 @@ const Buildings = () => {
                                     <Button variant="outlined">Modify</Button>
                                 </div>
                                 <div className="buildings-button">
-                                    <Button variant="contained">Delete</Button>
+                                    <Button variant="contained" onClick={() => handleDeleteButton(item.id)}>Delete</Button>
                                 </div>
                             </div>
                         </div>
