@@ -10,8 +10,8 @@ function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [users, setUsers] = useState([]);
-    const [token,setToken]=useState('')
     const [buttonSignIn,setButtonSignIn]=useState(false)
+    let token;
 
     const navigate=useNavigate()
     const closeModal = () => setButtonSignIn(false);
@@ -29,9 +29,10 @@ function Login(){
                 username: username,
                 password: password
             }
-            axios.post('http://3.66.157.143/api/auth/login', user)
+            axios.post('http://18.196.144.212/api/auth/login', user)
                 .then(res => {
-                    const token = res.data.token;
+                    token = res.data.token;
+                    console.log(token);
                     const decode = jwt(token);
                     console.log(decode.roles);
                     sessionStorage.setItem('token', token);

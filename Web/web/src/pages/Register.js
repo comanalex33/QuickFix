@@ -39,13 +39,16 @@ function Register() {
             password: password
         };
 
-        axios.post('http://3.66.157.143/api/auth/register', user)
+        axios.post('http://18.196.144.212/api/auth/register', user)
             .then(res => {
                 alert("User was successully added")
                 console.log(res.data)
+                navigate('')
             })
             .catch(err => {
-                console.log(err)
+                if(err.status===400){
+                    console.log(err.statusText)
+                }
             });
     }
 

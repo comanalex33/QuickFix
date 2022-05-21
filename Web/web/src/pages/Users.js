@@ -7,7 +7,7 @@ const Users = () => {
     const[data,setData]=useState([]);
 
     function studentsFilter(){
-        axios.get('http://3.66.157.143/api/users/roles/student')
+        axios.get('http://18.196.144.212/api/users/roles/student')
             .then(res => {
                 let l = [];
                 for (const user of res.data)
@@ -20,7 +20,7 @@ const Users = () => {
     }
 
     function handyMansFilter(){
-        axios.get('http://3.66.157.143/api/users/roles/handyman')
+        axios.get('http://18.196.144.212/api/users/roles/handyman')
             .then(res => {
                 let l = [];
                 for (const user of res.data)
@@ -33,7 +33,7 @@ const Users = () => {
     }
 
     function adminsFilter(){
-        axios.get('http://3.66.157.143/api/users/roles/admin')
+        axios.get('http://18.196.144.212/api/users/roles/admin')
             .then(res => {
                 let l = [];
                 for (const user of res.data)
@@ -46,7 +46,7 @@ const Users = () => {
     }
 
     const usersList = data.map((item)=>
-        <div className="card-body">
+        <div className="card-body"  key={item.id}>
             <h5 className="card-title">{item.userName}</h5>
             <p className="card-text">{item.email}</p>
             <a href="#" className="btn-user">Delete</a>

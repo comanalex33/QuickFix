@@ -31,11 +31,11 @@ const Navbar = () => {
                     <NavLink to="/dashboard" >
                         Home
                     </NavLink>
-                    {(isUserLoggedIn!='null') &&
+                    {(isUserLoggedIn!==null) &&
                     <NavLink to="/buildings" >
                         Buildings
                     </NavLink>}
-                    {(isUserLoggedIn!='null') &&
+                    {(isUserLoggedIn!==null) &&
                     <NavLink to="/users" >
                         Users
                     </NavLink>}
@@ -43,7 +43,7 @@ const Navbar = () => {
                         Contact
                     </NavLink>
                 </NavMenu>
-                {(isUserLoggedIn=='null') ?
+                {(isUserLoggedIn===null) ?
                     <NavBtn>
                         <NavBtnLink onClick={handleLogInButton}>Sign In</NavBtnLink>
                     </NavBtn> :
