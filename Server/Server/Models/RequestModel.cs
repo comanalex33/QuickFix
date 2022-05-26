@@ -6,9 +6,9 @@ namespace Server.Models
     {
         public RequestModel() { }
 
-        public RequestModel(long _RequestId, string _UserId, string _Description, string _RoomNumber, string _Cause, long _CategoryId, string _Priority)
+        public RequestModel(long _Id, string _UserId, string _Description, string _RoomNumber, string _Cause, long _CategoryId, string _Priority)
         {
-            RequestId = _RequestId;
+            Id = _Id;
             UserId = _UserId;
             Description = _Description;
             RoomNumber = _RoomNumber;
@@ -17,8 +17,7 @@ namespace Server.Models
             Priority = _Priority;         
         }
 
-        [Key]
-        public long RequestId { get; set; }
+        public long Id { get; set; }
 
         public string UserId { get; set; }
         
