@@ -10,5 +10,7 @@ namespace Server.Models
         public DbSet<BuildingModel> Building { get; set; }
 
         public DbSet<CategoryModel> Category { get; set; } 
+
+        public DbSet<RequestModel> Request { get; set; }
     }
 }

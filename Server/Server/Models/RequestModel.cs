@@ -1,10 +1,12 @@
-﻿namespace Server.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Server.Models
 {
     public class RequestModel
     {
         public RequestModel() { }
 
-        public RequestModel(long _RequestId, long _UserId, string _Description, string _RoomNumber, string _Cause, long _CategoryId, string _Priority)
+        public RequestModel(long _RequestId, string _UserId, string _Description, string _RoomNumber, string _Cause, long _CategoryId, string _Priority)
         {
             RequestId = _RequestId;
             UserId = _UserId;
@@ -15,9 +17,10 @@
             Priority = _Priority;         
         }
 
+        [Key]
         public long RequestId { get; set; }
 
-        public long UserId { get; set; }
+        public string UserId { get; set; }
         
         public string Description { get; set; }
         
