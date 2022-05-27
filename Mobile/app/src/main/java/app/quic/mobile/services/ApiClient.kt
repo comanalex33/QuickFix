@@ -7,8 +7,7 @@ class ApiClient {
     companion object {
         private fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
-                .baseUrl("http://3.66.157.143/")
-                //.baseUrl("https://0.0.0.0:44365/")
+                .baseUrl("http://18.196.144.212/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

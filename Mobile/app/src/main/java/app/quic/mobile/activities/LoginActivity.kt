@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun getUserInfo(){
-        val isUserCall: Call<UserModel> = ApiClient.getService().isUser(usernameField.text.toString())
+        val isUserCall: Call<UserModel> = ApiClient.getService().getUserData(usernameField.text.toString())
         isUserCall.enqueue(object : Callback<UserModel>{
             override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                 if(response.isSuccessful){
