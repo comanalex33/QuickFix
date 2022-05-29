@@ -19,6 +19,8 @@ import app.quic.mobile.dialogs.ProfileDialog
 import app.quic.mobile.fragments.HomeFragment
 import app.quic.mobile.fragments.MakeRequestFragment
 import app.quic.mobile.fragments.RequestsFragment
+import app.quic.mobile.interfaces.IUpdateData
+import app.quic.mobile.models.BuildingModel
 import app.quic.mobile.models.UserModel
 import app.quic.mobile.services.ApiClient
 import app.quic.mobile.services.LoggedInUser
@@ -27,7 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, IUpdateData {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var actionBarToggle: ActionBarDrawerToggle
 
     private lateinit var userModel: UserModel
+    private var buildingName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +54,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         getUserData()
         val userProfilePicture = findViewById<ImageView>(R.id.toolbar_profile)
         userProfilePicture.setOnClickListener {
-            val dialog = ProfileDialog()
-            dialog.setUserData(userModel)
-            dialog.show(this.supportFragmentManager, "ProfileDialog")
+            if(buildingName != null) {
+                val dialog = ProfileDialog()
+                dialog.setUserData(userModel, buildingName)
+                dialog.addListener(this)
+                dialog.show(this.supportFragmentManager, "ProfileDialog")
+            }
         }
     }
 
@@ -123,6 +129,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                 if (response.isSuccessful) {
                     userModel = response.body()!!
+                    getBuildingName(userModel.buildingId)
                 } else {
                     Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
                 }
@@ -134,4 +141,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         })
     }
+
+    private fun getBuildingName(id: Long) {
+        val getBuildingById: Call<BuildingModel> = ApiClient.getService().getBuildingById(id)
+
+        getBuildingById.enqueue(object : Callback<BuildingModel> {
+            override fun onResponse(call: Call<BuildingModel>, response: Response<BuildingModel>) {
+                buildingName = if(response.isSuccessful) {
+                    response.body()!!.name
+                } else {
+                    Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                    "-"
+                }
+            }
+
+            override fun onFailure(call: Call<BuildingModel>, t: Throwable) {
+                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
+
+    override fun updateData(data: String) {
+        buildingName = data
+    }
+
+
 }
