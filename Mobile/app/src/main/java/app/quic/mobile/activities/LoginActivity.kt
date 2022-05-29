@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import app.quic.mobile.services.LoggedInUser
 import app.quic.mobile.R
+import app.quic.mobile.dialogs.InfoDialog
 import app.quic.mobile.models.ErrorModel
 import app.quic.mobile.models.LoginModel
 import app.quic.mobile.models.TokenModel
@@ -48,34 +48,35 @@ class LoginActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
                     if(response.isSuccessful) {
                         LoggedInUser.setConnection(response.body()?.token, usernameField.text.toString())
-                        if(LoggedInUser.getUserRole() == "admin")
-                            Toast.makeText(
-                                applicationContext,
-                                "Admins must use dedicated site",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        else if(LoggedInUser.getUserRole() == null){
-                            Toast.makeText(
-                                applicationContext,
-                                "User does not have a role",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        } else {
-                            getUserInfo()
+                        when {
+                            LoggedInUser.getUserRole() == "admin" -> {
+                                val dialog = InfoDialog("Admins must use dedicated web page")
+                                dialog.show(supportFragmentManager, "Information dialog")
+                            }
+                            LoggedInUser.getUserRole() == null -> {
+                                val dialog = InfoDialog("User does not have a role")
+                                dialog.show(supportFragmentManager, "Information dialog")
+                            }
+                            else -> {
+                                getUserInfo()
+                            }
                         }
                     } else {
                         val gson = Gson()
                         val error = gson.fromJson(response.errorBody()?.string(), ErrorModel::class.java)
-                        Toast.makeText(
-                            applicationContext,
-                            error.title,
-                            Toast.LENGTH_LONG
-                        ).show()
+                        val dialog = InfoDialog(error.title)
+                        dialog.show(supportFragmentManager, "Information dialog")
                     }
                 }
 
                 override fun onFailure(call: Call<TokenModel>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                    if(t.message != null){
+                        val dialog = InfoDialog(t.message!!)
+                        dialog.show(supportFragmentManager, "Information dialog")
+                    } else {
+                        val dialog = InfoDialog("Something went wrong")
+                        dialog.show(supportFragmentManager, "Information dialog")
+                    }
                 }
 
             })
@@ -89,11 +90,8 @@ class LoginActivity : AppCompatActivity() {
                 if(response.isSuccessful){
                     var user = response.body()
                     if(!user!!.emailConfirmed){
-                        Toast.makeText(
-                            applicationContext,
-                            "Please confirm your email!",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        val dialog = InfoDialog("Please confirm your email!")
+                        dialog.show(supportFragmentManager, "Information dialog")
                     }
                     else{
                         val intent = Intent(applicationContext, MainActivity::class.java)
@@ -104,7 +102,13 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                if(t.message != null){
+                    val dialog = InfoDialog(t.message!!)
+                    dialog.show(supportFragmentManager, "Information dialog")
+                } else {
+                    val dialog = InfoDialog("Something went wrong")
+                    dialog.show(supportFragmentManager, "Information dialog")
+                }
             }
         })
     }

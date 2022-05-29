@@ -5,12 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import app.quic.mobile.R
+import app.quic.mobile.dialogs.InfoDialog
 import app.quic.mobile.models.*
 import app.quic.mobile.services.ApiClient
-import app.quic.mobile.services.LoggedInUser
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +34,8 @@ class RegisterActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
 
             if(passwordField.text.toString() != passwordField2.text.toString()) {
-                Toast.makeText(applicationContext, "Incorrect password", Toast.LENGTH_SHORT).show()
+                val dialog = InfoDialog("Incorrect password")
+                dialog.show(supportFragmentManager, "Information dialog")
             } else {
 
                 val registerModel = RegisterModel(
@@ -53,16 +52,25 @@ class RegisterActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         } else {
-                            Toast.makeText(
-                                applicationContext,
-                                response.errorBody()?.string(),
-                                Toast.LENGTH_LONG
-                            ).show()
+                            val errorMessage = response.errorBody()?.string()
+                            if(errorMessage != null) {
+                                val dialog = InfoDialog(errorMessage)
+                                dialog.show(supportFragmentManager, "Information dialog")
+                            } else {
+                                val dialog = InfoDialog("Something went wrong")
+                                dialog.show(supportFragmentManager, "Information dialog")
+                            }
                         }
                     }
 
                     override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                        Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                        if(t.message != null){
+                            val dialog = InfoDialog(t.message!!)
+                            dialog.show(supportFragmentManager, "Information dialog")
+                        } else {
+                            val dialog = InfoDialog("Something went wrong")
+                            dialog.show(supportFragmentManager, "Information dialog")
+                        }
                     }
 
                 })
