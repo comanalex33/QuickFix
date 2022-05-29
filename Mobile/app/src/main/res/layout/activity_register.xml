@@ -35,19 +35,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/username_register"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/username_holder_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="35dp"
-                android:drawableStart="@drawable/ic_person"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="Username"
-                android:inputType="textPersonName"
-                app:layout_constraintBottom_toTopOf="@+id/email_register" />
+                app:layout_constraintBottom_toTopOf="@+id/email_holder_register">
+
+                <EditText
+                    android:id="@+id/username_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="35dp"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Username"
+                    android:inputType="textPersonName"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_holder_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/password_holder_register_1">
 
             <EditText
                 android:id="@+id/email_register"
@@ -56,43 +68,59 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="35dp"
+                
                 android:layout_marginEnd="35dp"
                 android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="10dp"
                 android:ems="10"
                 android:hint="Email"
-                android:inputType="textEmailAddress"
-                app:layout_constraintBottom_toTopOf="@+id/password_register" />
+                android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/password_register"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_holder_register_1"
+                app:passwordToggleEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="35dp"
-                android:drawableStart="@drawable/ic_lock"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword"
-                app:layout_constraintBottom_toTopOf="@+id/password_register_2" />
+                app:layout_constraintBottom_toTopOf="@+id/password_holder_register_2">
 
-            <EditText
-                android:id="@+id/password_register_2"
+                <EditText
+                    android:id="@+id/password_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="35dp"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_holder_register_2"
+                app:passwordToggleEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="35dp"
-                android:drawableStart="@drawable/ic_lock"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="Re-enter Password"
-                android:inputType="textPassword"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <EditText
+                    android:id="@+id/password_register_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="35dp"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Re-enter Password"
+                    android:inputType="textPassword"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
