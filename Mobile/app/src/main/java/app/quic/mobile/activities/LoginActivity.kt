@@ -11,6 +11,7 @@ import app.quic.mobile.R
 import app.quic.mobile.models.ErrorModel
 import app.quic.mobile.models.LoginModel
 import app.quic.mobile.models.TokenModel
+import app.quic.mobile.models.UserModel
 import app.quic.mobile.services.ApiClient
 import com.google.gson.Gson
 import retrofit2.Call
@@ -53,9 +54,7 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                         else {
-                            val intent = Intent(applicationContext, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                            getUserInfo()
                         }
                     } else {
                         val gson = Gson()
@@ -74,5 +73,32 @@ class LoginActivity : AppCompatActivity() {
 
             })
         }
+    }
+
+    fun getUserInfo(){
+        val isUserCall: Call<UserModel> = ApiClient.getService().getUserData(usernameField.text.toString())
+        isUserCall.enqueue(object : Callback<UserModel>{
+            override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                if(response.isSuccessful){
+                    var user = response.body()
+                    if(!user!!.emailConfirmed){
+                        Toast.makeText(
+                            applicationContext,
+                            "Please confirm your email!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    else{
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
