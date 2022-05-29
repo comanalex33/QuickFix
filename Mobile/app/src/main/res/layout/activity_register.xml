@@ -6,62 +6,119 @@
     android:layout_height="match_parent"
     tools:context=".activities.LoginActivity"
     android:orientation="vertical"
+    android:background="@drawable/register_background"
+    android:weightSum="10"
     >
-
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:textSize="20sp"
+        android:layout_weight="2"
+        android:layout_height="0dp"
+        android:textSize="30sp"
         android:gravity="center"
-        android:text="Register page" />
+        android:text="Create account"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/email_register"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_marginTop="20dp"
-        android:hint="Email" />
+        android:layout_height="0dp"
+        android:layout_weight="6">
 
-    <EditText
-        android:id="@+id/username_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_marginTop="20dp"
-        android:hint="Username" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/password_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:layout_marginTop="20dp"
-        android:hint="Password"
-        />
+            <EditText
+                android:id="@+id/username_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/email_register" />
+
+            <EditText
+                android:id="@+id/email_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintBottom_toTopOf="@+id/password_register" />
+
+            <EditText
+                android:id="@+id/password_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toTopOf="@+id/password_register_2" />
+
+            <EditText
+                android:id="@+id/password_register_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Re-enter Password"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_weight="2"
         >
 
         <Button
             android:id="@+id/register_button_register"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.7"
             android:layout_height="wrap_content"
             android:text="Register"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:background="@drawable/curve_shape"
+            android:backgroundTint="@color/green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

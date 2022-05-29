@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import app.quic.mobile.services.LoggedInUser
 import app.quic.mobile.R
@@ -21,7 +22,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginButton: Button
-    private lateinit var registerButton: Button
+    private lateinit var registerButton: TextView
     private lateinit var usernameField: EditText
     private lateinit var passwordField: EditText
 
@@ -53,7 +54,13 @@ class LoginActivity : AppCompatActivity() {
                                 "Admins must use dedicated site",
                                 Toast.LENGTH_LONG
                             ).show()
-                        else {
+                        else if(LoggedInUser.getUserRole() == null){
+                            Toast.makeText(
+                                applicationContext,
+                                "User does not have a role",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
                             getUserInfo()
                         }
                     } else {

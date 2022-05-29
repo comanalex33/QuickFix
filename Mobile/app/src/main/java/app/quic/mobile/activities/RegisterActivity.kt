@@ -21,6 +21,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var emailField: EditText
     private lateinit var usernameField: EditText
     private lateinit var passwordField: EditText
+    private lateinit var passwordField2: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,32 +31,42 @@ class RegisterActivity : AppCompatActivity() {
         emailField = findViewById(R.id.email_register)
         usernameField = findViewById(R.id.username_register)
         passwordField = findViewById(R.id.password_register)
+        passwordField2 = findViewById(R.id.password_register_2)
 
         registerButton.setOnClickListener {
 
-            val registerModel = RegisterModel(emailField.text.toString(), usernameField.text.toString(), passwordField.text.toString())
-            val registerCall: Call<UserModel> = ApiClient.getService().register(registerModel)
+            if(passwordField.text.toString() != passwordField2.text.toString()) {
+                Toast.makeText(applicationContext, "Incorrect password", Toast.LENGTH_SHORT).show()
+            } else {
 
-            registerCall.enqueue(object : Callback<UserModel> {
-                override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
-                    if(response.isSuccessful) {
-                        val intent = Intent(applicationContext, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(
-                            applicationContext,
-                            response.errorBody()?.string(),
-                            Toast.LENGTH_LONG
-                        ).show()
+                val registerModel = RegisterModel(
+                    emailField.text.toString(),
+                    usernameField.text.toString(),
+                    passwordField.text.toString()
+                )
+                val registerCall: Call<UserModel> = ApiClient.getService().register(registerModel)
+
+                registerCall.enqueue(object : Callback<UserModel> {
+                    override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                        if (response.isSuccessful) {
+                            val intent = Intent(applicationContext, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                response.errorBody()?.string(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
-                }
+                    override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                    }
 
-            })
+                })
+            }
         }
     }
 

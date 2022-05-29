@@ -24,7 +24,7 @@ object LoggedInUser {
         return "Bearer $token"
     }
 
-    fun getUserRole(): String {
+    fun getUserRole(): String? {
         return tokenInfo!!.roles
     }
 }
