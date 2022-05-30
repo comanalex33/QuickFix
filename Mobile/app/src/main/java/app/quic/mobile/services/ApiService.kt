@@ -28,8 +28,12 @@ interface ApiService {
     //Category
     @GET("/api/category")
     fun getCategories(): Call<List<CategoryModel>>
+    @GET("/api/category/{id}")
+    fun getCategoryById(@Path("id") id: Long): Call<CategoryModel>
 
     //Request
     @POST("/api/requests")
     fun sendRequest(@Header("Authorization") authHeader:String, @Body model: RequestModel): Call<RequestModel>
+    @GET("/api/requests")
+    fun getAllRequests(): Call<List<RequestModel>>
 }
