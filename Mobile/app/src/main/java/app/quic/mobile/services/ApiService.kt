@@ -1,10 +1,6 @@
 package app.quic.mobile.services
 
-import app.quic.mobile.models.BuildingModel
-import app.quic.mobile.models.LoginModel
-import app.quic.mobile.models.RegisterModel
-import app.quic.mobile.models.TokenModel
-import app.quic.mobile.models.UserModel
+import app.quic.mobile.models.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -28,4 +24,12 @@ interface ApiService {
     fun getAllBuildings(): Call<List<BuildingModel>>
     @GET("api/buildings/{id}")
     fun getBuildingById(@Path("id") id: Long): Call<BuildingModel>
+
+    //Category
+    @GET("/api/category")
+    fun getCategories(): Call<List<CategoryModel>>
+
+    //Request
+    @POST("/api/requests")
+    fun sendRequest(@Body model: RequestModel): Call<RequestModel>
 }
