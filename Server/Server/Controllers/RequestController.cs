@@ -61,9 +61,10 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,student,handyman")]
         public async Task<ActionResult<RequestModel>> AddRequest(RequestsCall requestModel)
         {
+
 
             long Id = _context.Request.Count() + 1;
 
