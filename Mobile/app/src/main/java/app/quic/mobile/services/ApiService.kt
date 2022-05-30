@@ -31,5 +31,5 @@ interface ApiService {
 
     //Request
     @POST("/api/requests")
-    fun sendRequest(@Body model: RequestModel): Call<RequestModel>
+    fun sendRequest(@Header("Authorization") authHeader:String, @Body model: RequestModel): Call<RequestModel>
 }
