@@ -36,22 +36,23 @@ namespace Server.Controllers
             var request = await _context.Request.FindAsync(id);
             if (request == null)
             {
-                return BadRequest("This request does not exist!");
+                return BadRequest("This request does not exist");
             }
             return Ok(request);
         }
 
         [HttpGet]
-        [Route("users/{id}")]
-        public async Task<ActionResult<IEnumerable<RequestModel>>> GetRequestById(string id)
+        [Route("users/{username}")]
+        public async Task<ActionResult<IEnumerable<RequestModel>>> GetRequestByName(string username)
         {
 
-            var user = await _userModel.FindByIdAsync(id);
+            var user = await _userModel.FindByNameAsync(username);
             if (user == null)
             {
                 return BadRequest("This user does not exist");
             }
-            var requests = _context.Request.Where(item => item.UserId == id);
+
+            var requests = _context.Request.Where(item => item.Username == username);
   
             if (requests == null)
             {
@@ -61,12 +62,22 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin,student,handyman")]
+       // [Authorize(Roles = "admin,student,handyman")]
         public async Task<ActionResult<RequestModel>> AddRequest(RequestsCall requestModel)
         {
-
-
             long Id = _context.Request.Count() + 1;
+
+            var user = await _userModel.FindByNameAsync(requestModel.Username);
+            if (user == null)
+            {
+                return BadRequest("This user does not exist");
+            }
+
+            var category = await _context.Category.FirstOrDefaultAsync(item => item.Name == requestModel.Category);
+            if (category == null)
+            {
+                return BadRequest("This category does not exist");
+            }
 
             var requestCheck = await _context.Request.FindAsync(Id);
             while (requestCheck != null)
@@ -75,7 +86,7 @@ namespace Server.Controllers
                 requestCheck = await _context.Request.FindAsync(Id);
             }
 
-            RequestModel request = new RequestModel(Id, requestModel.UserId, requestModel.Description, requestModel.RoomNumber, requestModel.Cause, requestModel.CategoryId, requestModel.Priority);
+            RequestModel request = new RequestModel(Id, requestModel.Username, requestModel.Description, requestModel.RoomNumber, requestModel.Cause, requestModel.Category, requestModel.Priority, requestModel.Status, requestModel.dateTime);
             _context.Request.Add(request);
             await _context.SaveChangesAsync();
 
@@ -93,6 +104,23 @@ namespace Server.Controllers
             }
             _context.Request.Remove(request);
             await _context.SaveChangesAsync();
+
+            return request;
+        }
+
+        [HttpPut("{id}/status/{status}")]
+        public async Task<ActionResult<RequestModel>> UpdateStatus(string status, long id)
+        {
+            var request = await _context.Request.FindAsync(id);
+            if (request == null)
+            {
+                return BadRequest("This request does not exist!");
+            }
+
+            request.Status = status;
+
+            _context.Request.Update(request);
+            _context.SaveChanges();
 
             return request;
         }
