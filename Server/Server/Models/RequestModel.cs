@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Server.RequestModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace Server.Models
 {
@@ -15,6 +16,17 @@ namespace Server.Models
             Cause = _Cause;
             CategoryId = _CategoryId;
             Priority = _Priority;         
+        }
+
+        public RequestModel(long _Id, RequestsCall _request)
+        {
+            Id= _Id;
+            UserId = _request.UserId;
+            Description= _request.Description;
+            RoomNumber = _request.RoomNumber;
+            Cause= _request.Cause;
+            CategoryId= _request.CategoryId;
+            Priority= _request.Priority;
         }
 
         public long Id { get; set; }

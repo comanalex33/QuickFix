@@ -30,6 +30,8 @@ namespace Server.Controllers
             return await _context.Category.ToListAsync();
         }
 
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryModel>> Get(long id)
         {
