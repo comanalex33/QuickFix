@@ -62,7 +62,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = "admin,student,handyman")]
+        [Authorize(Roles = "admin,student,handyman")]
         public async Task<ActionResult<RequestModel>> AddRequest(RequestsCall requestModel)
         {
             long Id = _context.Request.Count() + 1;
@@ -109,6 +109,7 @@ namespace Server.Controllers
         }
 
         [HttpPut("{id}/status/{status}")]
+        [Authorize(Roles = "handyman")]
         public async Task<ActionResult<RequestModel>> UpdateStatus(string status, long id)
         {
             var request = await _context.Request.FindAsync(id);
