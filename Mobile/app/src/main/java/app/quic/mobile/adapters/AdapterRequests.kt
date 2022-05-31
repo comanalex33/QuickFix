@@ -15,6 +15,8 @@ import app.quic.mobile.services.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -47,6 +49,8 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
         var cause: TextView = myView.findViewById(R.id.card_request_cause)
         var category: TextView = myView.findViewById(R.id.card_request_category)
         var priority: TextView = myView.findViewById(R.id.card_request_priority)
+        var status: TextView = myView.findViewById(R.id.card_request_status)
+        var creationDate: TextView = myView.findViewById(R.id.card_request_date_created)
 
 
 
@@ -55,36 +59,19 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
             roomNumber.text = model.roomNumber
             cause.text = model.cause
             priority.text = model.priority
-            getBuildingName(model.categoryId)
+            status.text = model.status
+            category.text = model.category
+            creationDate.text = model.dateTime
         }
 
-        private fun getBuildingName(id: Long) {
-            val getBuildingNameCall: Call<CategoryModel> = ApiClient.getService().getCategoryById(id)
-
-            getBuildingNameCall.enqueue(object : Callback<CategoryModel> {
-                override fun onResponse(call: Call<CategoryModel>, response: Response<CategoryModel>) {
-                    if(response.isSuccessful) {
-                        category.text = response.body()!!.name
-                    } else {
-                        val errorMessage = response.errorBody()?.string()
-                        if(errorMessage != null) {
-                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<CategoryModel>, t: Throwable) {
-                    if(t.message != null){
-                        Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-            })
+        fun formatData(date: String): String{
+            val format = SimpleDateFormat("yyyy-MM-ddTHH:mm:sss", Locale.GERMANY)
+            format.timeZone = TimeZone.getTimeZone("UTC")
+            val date = format.parse(date)
+            val outputFormat = SimpleDateFormat("yyyy MMMM dd - HH:mm")
+            return outputFormat.format(date)
         }
+
     }
 }
 

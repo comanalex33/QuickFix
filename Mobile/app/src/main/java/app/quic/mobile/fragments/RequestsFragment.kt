@@ -14,6 +14,7 @@ import app.quic.mobile.activities.MainActivity
 import app.quic.mobile.adapters.AdapterRequests
 import app.quic.mobile.models.RequestModel
 import app.quic.mobile.services.ApiClient
+import app.quic.mobile.services.LoggedInUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +37,9 @@ class RequestsFragment : Fragment() {
         rvRequestsAdapter = AdapterRequests(activity as MainActivity)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = rvRequestsAdapter
-        getAllRequests()
+        if(LoggedInUser.getUserRole() == "student") {
+            getAllRequests()
+        }
 
         return view
     }
@@ -53,7 +56,6 @@ class RequestsFragment : Fragment() {
             ) {
                 if(response.isSuccessful) {
                     val requestList: List<RequestModel>? = response.body()
-                    Toast.makeText(context, requestList!!.size.toString(), Toast.LENGTH_SHORT).show()
                     if(requestList != null) {
                         for(request in requestList) {
                             requests.add(request)
