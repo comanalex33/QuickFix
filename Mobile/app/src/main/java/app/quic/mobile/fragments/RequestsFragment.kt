@@ -38,14 +38,43 @@ class RequestsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = rvRequestsAdapter
         if(LoggedInUser.getUserRole() == "student") {
-            getAllRequests()
+            getSpecificRequests()
         }
+        else getAllRequests()
 
         return view
     }
 
     private fun getAllRequests() {
         val requestsCall: Call<List<RequestModel>> = ApiClient.getService().getAllRequests()
+
+        requests = ArrayList()
+
+        requestsCall.enqueue(object : Callback<List<RequestModel>> {
+            override fun onResponse(
+                call: Call<List<RequestModel>>,
+                response: Response<List<RequestModel>>
+            ) {
+                if(response.isSuccessful) {
+                    val requestList: List<RequestModel>? = response.body()
+                    if(requestList != null) {
+                        for(request in requestList) {
+                            requests.add(request)
+                        }
+                    }
+                    requestList?.let { rvRequestsAdapter.setRequests(it) }
+                }
+            }
+
+            override fun onFailure(call: Call<List<RequestModel>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun getSpecificRequests(){
+        val requestsCall: Call<List<RequestModel>> = ApiClient.getService().getRequestsByUsername(LoggedInUser.username!!)
 
         requests = ArrayList()
 
