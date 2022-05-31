@@ -14,6 +14,7 @@ import app.quic.mobile.models.LoginModel
 import app.quic.mobile.models.TokenModel
 import app.quic.mobile.models.UserModel
 import app.quic.mobile.services.ApiClient
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        FirebaseMessaging.getInstance().subscribeToTopic("all")
 
         loginButton = findViewById(R.id.login_button)
         registerButton = findViewById(R.id.register_button)
