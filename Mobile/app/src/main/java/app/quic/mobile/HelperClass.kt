@@ -31,12 +31,10 @@ class HelperClass {
                     response: Response<MessageModel>
                 ) {
                     if(response.isSuccessful){
-                        Toast.makeText(context, response.body()!!.message, Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MessageModel>, t: Throwable) {
-                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 
             })

@@ -135,12 +135,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     userModel = response.body()!!
                     getBuildingName(userModel.buildingId)
                 } else {
-                    Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
             }
 
         })
@@ -154,13 +154,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 buildingName = if(response.isSuccessful) {
                     response.body()!!.name
                 } else {
-                    Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
                     "-"
                 }
             }
 
             override fun onFailure(call: Call<BuildingModel>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
             }
 
         })

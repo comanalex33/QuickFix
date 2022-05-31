@@ -17,11 +17,11 @@ class FirebaseMessagingService : com.google.firebase.messaging.FirebaseMessaging
         super.onMessageReceived(message)
 
         if (message.data.isNotEmpty()) {
-            Toast.makeText(
+            /*Toast.makeText(
                 applicationContext,
                 "Message data payload: ${message.data}",
                 Toast.LENGTH_SHORT
-            ).show()
+            ).show()*/
         }
 
         // Check if message contains a notification payload.

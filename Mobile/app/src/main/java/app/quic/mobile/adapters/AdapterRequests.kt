@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import app.quic.mobile.HelperClass
 import app.quic.mobile.R
 import app.quic.mobile.dialogs.InfoDialog
 import app.quic.mobile.models.CategoryModel
@@ -49,11 +50,13 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
             changeStatus("accepted", arrayList[position].id)
             holder.buttons.visibility = View.GONE
             holder.status.text = "accepted"
+            HelperClass.notify(arrayList[position].username, "Your service request has been accepted!", "Request status", context!!)
         }
         holder.declineButton.setOnClickListener {
             changeStatus("declined", arrayList[position].id)
             holder.buttons.visibility = View.GONE
             holder.status.text = "accepted"
+            HelperClass.notify(arrayList[position].username, "Your service request has been declined!", "Request status", context!!)
         }
     }
 
@@ -63,19 +66,19 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
         changeStatusCall.enqueue(object: Callback<RequestModel>{
             override fun onResponse(call: Call<RequestModel>, response: Response<RequestModel>) {
                 if(response.isSuccessful) {
-                    Toast.makeText(context, "Updated status!", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Updated status!", Toast.LENGTH_SHORT).show()
                 } else {
                     val errorMessage = response.errorBody()?.string()
                     if(errorMessage != null) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
 
             override fun onFailure(call: Call<RequestModel>, t: Throwable) {
-                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
             }
 
         })
