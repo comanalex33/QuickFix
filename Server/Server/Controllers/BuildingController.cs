@@ -85,5 +85,23 @@ namespace Server.Controllers
 
             return building;
         }
+
+        [HttpPut("{id}/name/{name}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<BuildingModel>> UpdateName(string name, long id)
+        {
+            var building = await _context.Building.FindAsync(id);
+            if (building == null)
+            {
+                return BadRequest("This building does not exist!");
+            }
+
+            building.Name = name;
+
+            _context.Building.Update(building);
+            _context.SaveChanges();
+
+            return building;
+        }
     }
 }
