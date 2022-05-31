@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:backgroundTint="@color/green"
+    android:backgroundTint="@color/grey"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:layout_marginTop="5dp"
@@ -188,6 +188,47 @@
                     android:textSize="16sp"/>
 
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/buttons_request"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/accept_request_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/curve_shape"
+                    android:backgroundTint="@color/green"
+                    android:text="Accept"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toStartOf="@+id/decline_request_button"
+                    card_view:layout_constraintHorizontal_bias="0.5"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintWidth_percent="0.35"/>
+
+                <Button
+                    android:id="@+id/decline_request_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/curve_shape"
+                    android:backgroundTint="@color/red"
+                    android:text="Decline"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.5"
+                    card_view:layout_constraintStart_toEndOf="@+id/accept_request_button"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintWidth_percent="0.35"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

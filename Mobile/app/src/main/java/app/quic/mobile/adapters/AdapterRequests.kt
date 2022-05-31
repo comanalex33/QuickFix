@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.quic.mobile.R
 import app.quic.mobile.models.CategoryModel
 import app.quic.mobile.models.RequestModel
 import app.quic.mobile.services.ApiClient
+import app.quic.mobile.services.LoggedInUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,6 +54,7 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
         var priority: TextView = myView.findViewById(R.id.card_request_priority)
         var status: TextView = myView.findViewById(R.id.card_request_status)
         var creationDate: TextView = myView.findViewById(R.id.card_request_date_created)
+        var buttons: ConstraintLayout = myView.findViewById(R.id.buttons_request)
 
 
 
@@ -63,6 +66,13 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
             status.text = model.status
             category.text = model.category
             creationDate.text = formatData(model.dateTime)
+
+            if(LoggedInUser.getUserRole() == "handyman"){
+                buttons.visibility = View.VISIBLE
+            }
+            else{
+                buttons.visibility = View.GONE
+            }
         }
 
         @SuppressLint("SimpleDateFormat")
