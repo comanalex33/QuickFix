@@ -1,5 +1,6 @@
 package app.quic.mobile.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -61,15 +62,16 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
             priority.text = model.priority
             status.text = model.status
             category.text = model.category
-            creationDate.text = model.dateTime
+            creationDate.text = formatData(model.dateTime)
         }
 
+        @SuppressLint("SimpleDateFormat")
         fun formatData(date: String): String{
-            val format = SimpleDateFormat("yyyy-MM-ddTHH:mm:sss", Locale.GERMANY)
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:sss", Locale.GERMANY)
             format.timeZone = TimeZone.getTimeZone("UTC")
-            val date = format.parse(date)
+            val outputDate = format.parse(date)
             val outputFormat = SimpleDateFormat("yyyy MMMM dd - HH:mm")
-            return outputFormat.format(date)
+            return outputFormat.format(outputDate!!)
         }
 
     }
