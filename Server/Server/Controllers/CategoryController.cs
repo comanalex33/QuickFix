@@ -84,5 +84,23 @@ namespace Server.Controllers
 
             return category;
         }
+
+        [HttpPut("{id}/name/{name}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<CategoryModel>> UpdateName(string name, long id)
+        {
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
+            {
+                return BadRequest("This category does not exist!");
+            }
+
+            category.Name = name;
+
+            _context.Category.Update(category);
+            _context.SaveChanges();
+
+            return category;
+        }
     }
 }
