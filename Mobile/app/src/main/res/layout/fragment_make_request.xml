@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MakeRequestFragment">
+    tools:context=".fragments.MakeRequestFragment"
+    android:background="@color/color4">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,6 +97,7 @@
             android:layout_marginEnd="35dp"
             android:drawablePadding="10dp"
             android:gravity="center"
+            android:popupBackground="@color/color3"
             />
 
         <TextView
@@ -118,6 +120,7 @@
             android:layout_marginEnd="35dp"
             android:drawablePadding="10dp"
             android:gravity="center"
+            android:popupBackground="@color/color3"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,7 +134,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/curve_shape"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/color2"
                 android:text="Send request"
                 android:textColor="@color/black"
                 android:textSize="20sp"
