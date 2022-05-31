@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.quic.mobile.R
+import app.quic.mobile.dialogs.InfoDialog
 import app.quic.mobile.models.CategoryModel
 import app.quic.mobile.models.RequestModel
 import app.quic.mobile.services.ApiClient
@@ -43,6 +45,40 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
         val requestItem: RequestModel = arrayList[position]
         (holder as FaqViewHolder)
             .initializeUIComponents(requestItem)
+        holder.acceptButton.setOnClickListener {
+            changeStatus("accepted", arrayList[position].id)
+            holder.buttons.visibility = View.GONE
+            holder.status.text = "accepted"
+        }
+        holder.declineButton.setOnClickListener {
+            changeStatus("declined", arrayList[position].id)
+            holder.buttons.visibility = View.GONE
+            holder.status.text = "accepted"
+        }
+    }
+
+    fun changeStatus(status: String, id: Long){
+        val changeStatusCall: Call<RequestModel> = ApiClient.getService().changeStatus(LoggedInUser.getTokenForAuthentication()!!, id, status)
+
+        changeStatusCall.enqueue(object: Callback<RequestModel>{
+            override fun onResponse(call: Call<RequestModel>, response: Response<RequestModel>) {
+                if(response.isSuccessful) {
+                    Toast.makeText(context, "Updated status!", Toast.LENGTH_SHORT).show()
+                } else {
+                    val errorMessage = response.errorBody()?.string()
+                    if(errorMessage != null) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<RequestModel>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     // Holder that initialize elements inside the card view
@@ -55,6 +91,8 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
         var status: TextView = myView.findViewById(R.id.card_request_status)
         var creationDate: TextView = myView.findViewById(R.id.card_request_date_created)
         var buttons: ConstraintLayout = myView.findViewById(R.id.buttons_request)
+        var acceptButton: Button = myView.findViewById(R.id.accept_request_button)
+        var declineButton: Button = myView.findViewById(R.id.decline_request_button)
 
 
 
@@ -71,6 +109,10 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
                 buttons.visibility = View.VISIBLE
             }
             else{
+                buttons.visibility = View.GONE
+            }
+
+            if(status.text != "pending"){
                 buttons.visibility = View.GONE
             }
         }
