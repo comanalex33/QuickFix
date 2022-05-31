@@ -41,6 +41,7 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
         val requestItem: RequestModel = arrayList[position]
         (holder as FaqViewHolder)
             .initializeUIComponents(requestItem)
+        
     }
 
     // Holder that initialize elements inside the card view
