@@ -18,7 +18,7 @@ const Navbar = () => {
 
     const handleLogOutButton = event =>{
         navigate('');
-        sessionStorage.setItem('token',null);
+        sessionStorage.clear();
     }
 
     return (

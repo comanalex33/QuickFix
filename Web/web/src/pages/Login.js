@@ -37,7 +37,7 @@ function Login(){
                     console.log(decode.roles);
                     sessionStorage.setItem('token', token);
                     if(decode.roles==='admin'){
-                        navigate("/dashboard", {state: username})
+                        navigate("/buildings")
                     }
                     else setButtonSignIn(btn=>!btn)
                 })

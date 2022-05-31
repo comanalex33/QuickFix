@@ -43,12 +43,10 @@ function Register() {
             .then(res => {
                 alert("User was successully added")
                 console.log(res.data)
-                navigate('')
+                navigate('/login')
             })
             .catch(err => {
-                if(err.status===400){
-                    console.log(err.statusText)
-                }
+               console.log(err);
             });
     }
 
