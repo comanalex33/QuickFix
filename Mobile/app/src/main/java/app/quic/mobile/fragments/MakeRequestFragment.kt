@@ -18,6 +18,7 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDateTime
 
 class MakeRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -59,7 +60,7 @@ class MakeRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
         prioritySpinner.adapter = adapter2
 
         sendRequestButton.setOnClickListener {
-            val requestModel = RequestModel(LoggedInUser.username!!, descriptionField.text.toString(), roomNumberField.text.toString(), causeField.text.toString(), selectedCategory!!.id, selectedPriority!! )
+            val requestModel = RequestModel(LoggedInUser.username!!, descriptionField.text.toString(), roomNumberField.text.toString(), causeField.text.toString(), selectedCategory!!.name, selectedPriority!!, "processing", LocalDateTime.now().toString())
             val requestCall: Call<RequestModel> = ApiClient.getService().sendRequest(LoggedInUser.getTokenForAuthentication()!!, requestModel)
 
             requestCall.enqueue(object : Callback<RequestModel> {

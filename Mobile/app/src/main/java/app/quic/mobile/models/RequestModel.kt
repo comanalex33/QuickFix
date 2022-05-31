@@ -1,4 +1,6 @@
 package app.quic.mobile.models
 
-class RequestModel (var userId: String, var description: String, var roomNumber: String, var cause: String, var categoryId: Long, var priority: String) {
+import java.util.*
+
+class RequestModel (var username: String, var description: String, var roomNumber: String, var cause: String, var category: String, var priority: String, var status: String, var dateTime: String) {
 }
