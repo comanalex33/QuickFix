@@ -67,8 +67,10 @@ class MakeRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
             requestCall.enqueue(object : Callback<RequestModel> {
                 override fun onResponse(call: Call<RequestModel>, response: Response<RequestModel> ) {
                     if(response.isSuccessful) {
-                        //Toast.make
-                        Toast.makeText(context, "Request sent successfully!", Toast.LENGTH_SHORT).show()
+                        HelperClass.notify("handyman", "Your service request has been accepted!", "Request status", context!!)
+                        val dialog = InfoDialog("Request sent successfully!")
+                        dialog.show(childFragmentManager, "Information dialog")
+                        //Toast.makeText(context, "Request sent successfully!", Toast.LENGTH_SHORT).show()
                     } else {
                         val errorMessage = response.errorBody()?.string()
                         if(errorMessage != null) {

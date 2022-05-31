@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import app.quic.mobile.HelperClass
 import app.quic.mobile.R
@@ -24,7 +25,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterRequests(var context: Context, var fragment: FragmentManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var arrayList = emptyList<RequestModel>()
 
@@ -67,6 +68,8 @@ class AdapterRequests(var context: Context) : RecyclerView.Adapter<RecyclerView.
             override fun onResponse(call: Call<RequestModel>, response: Response<RequestModel>) {
                 if(response.isSuccessful) {
                     //Toast.makeText(context, "Updated status!", Toast.LENGTH_SHORT).show()
+                    val dialog = InfoDialog("Updated status!")
+                    dialog.show(fragment, "Information dialog")
                 } else {
                     val errorMessage = response.errorBody()?.string()
                     if(errorMessage != null) {
