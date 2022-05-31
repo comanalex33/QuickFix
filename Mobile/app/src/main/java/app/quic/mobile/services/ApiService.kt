@@ -31,9 +31,11 @@ interface ApiService {
 
     //Request
     @POST("/api/requests")
-    fun sendRequest(@Header("Authorization") authHeader:String, @Body model: RequestModel): Call<RequestModel>
+    fun sendRequest(@Header("Authorization") authHeader:String, @Body model: RequestNewModel): Call<RequestModel>
     @GET("/api/requests")
     fun getAllRequests(): Call<List<RequestModel>>
     @GET("/api/requests/users/{username}")
     fun getRequestsByUsername(@Path("username") username: String): Call<List<RequestModel>>
+    @PUT("/api/requests/{id}/status/{status}")
+    fun changeStatus(@Header("Authorization") authHeader:String, @Path("id") id: Long, @Path("status") status: String): Call<RequestModel>
 }
