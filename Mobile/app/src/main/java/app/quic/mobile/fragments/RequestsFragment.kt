@@ -40,7 +40,9 @@ class RequestsFragment : Fragment() {
         if(LoggedInUser.getUserRole() == "student") {
             getSpecificRequests()
         }
-        else getAllRequests()
+        else{
+            getAllRequests()
+        }
 
         return view
     }
