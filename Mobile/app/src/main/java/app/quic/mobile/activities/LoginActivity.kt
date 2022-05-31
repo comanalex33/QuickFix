@@ -31,8 +31,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        FirebaseMessaging.getInstance().subscribeToTopic("all")
-
         loginButton = findViewById(R.id.login_button)
         registerButton = findViewById(R.id.register_button)
         usernameField = findViewById(R.id.username_login)
@@ -97,6 +95,9 @@ class LoginActivity : AppCompatActivity() {
                         dialog.show(supportFragmentManager, "Information dialog")
                     }
                     else{
+                        FirebaseMessaging.getInstance().subscribeToTopic("all")
+                        FirebaseMessaging.getInstance().subscribeToTopic(LoggedInUser.getUserRole()!!)
+                        FirebaseMessaging.getInstance().subscribeToTopic(LoggedInUser.username!!)
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent)
                         finish()

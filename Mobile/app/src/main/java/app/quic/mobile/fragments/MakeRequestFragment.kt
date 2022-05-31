@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import app.quic.mobile.HelperClass
 import app.quic.mobile.R
 import app.quic.mobile.activities.MainActivity
 import app.quic.mobile.activities.RegisterActivity
@@ -66,6 +67,7 @@ class MakeRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
             requestCall.enqueue(object : Callback<RequestModel> {
                 override fun onResponse(call: Call<RequestModel>, response: Response<RequestModel> ) {
                     if(response.isSuccessful) {
+                        HelperClass.notify("handyman", "A new service request has been sent!", "New request", context!!)
                         Toast.makeText(context, "Request sent successfully!", Toast.LENGTH_SHORT).show()
                     } else {
                         val errorMessage = response.errorBody()?.string()
