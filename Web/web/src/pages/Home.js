@@ -16,8 +16,6 @@ function Home () {
                 {(isUserLoggedIn==null)?
                 <Button
                     className='btns'
-                    buttonStyle='btn--outline'
-                    buttonSize='btn--large'
                     onClick={handleSignIn}
                 >
                     GET STARTED
