@@ -7,10 +7,12 @@ import '../styles/Users.css'
 const Users = () => {
     const[data,setData]=useState([]);
     const[role,setRole]=useState('')
-    const allRoles=["admin","student","handyman"];
-    const [filteredRoles,setFilteredRoles]=useState([])
     const [dropdown1,setDropdown1]=useState('')
     const [dropdown2,setDropdown2]=useState('')
+
+    useEffect(() => {
+
+    },[data])
 
     function studentsFilter(){
         axios.get('http://18.196.144.212/api/users/roles/student')
@@ -79,16 +81,57 @@ const Users = () => {
         }
     }
 
+    const token=sessionStorage.getItem('token');
+    const config = {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }
+
+    function handleChangeRole(role,username){
+        axios.delete(`http://18.196.144.212/api/users/${username}/removeRole`, config)
+            .then(res => {
+                console.log(res.data)
+                axios.post(`http://18.196.144.212/api/users/${username}/roles/${role}`,null, config)
+                    .then(res => {
+                        console.log(res.data)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+
+    }
+
+    function deleteAccount(username){
+        axios.delete(`http://18.196.144.212/api/users/${username}`, config)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+
 
 
     const usersList = data.map((item)=>
         <div className="card-body"  key={item.id}>
-            <h5 className="card-title">{item.userName}</h5>
+            <h5 className="card-title" >{item.userName}</h5>
             <p className="card-text">{item.email}</p>
-            <a href="#" className="btn-user">Delete</a>
-            <DropdownButton className="btn-user" size="sm" id="dropdown-basic-button" title="Change role" onClick={getRoles(item.userName)}>
-                <Dropdown.Item href="#/action-1">{dropdown1}</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">{dropdown2}</Dropdown.Item>
+            <a href="#" className="btn-user" onClick={deleteAccount(item.userName)}>Delete</a>
+            <DropdownButton className="btn-user" size="sm" id="dropdown-basic-button" title="Change role" onClick={getRoles(item.userName)}
+                            onSelect={(event) => handleChangeRole(event,item.userName)}>
+                <Dropdown.Item eventKey={dropdown1} >{dropdown1}
+                </Dropdown.Item>
+                <Dropdown.Item eventKey={dropdown2} >{dropdown2}
+                </Dropdown.Item>
 
             </DropdownButton>
         </div>

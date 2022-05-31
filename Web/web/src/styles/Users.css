@@ -29,7 +29,7 @@
     margin: 10px;
 }
 
-.btn-category:not(disabled){
+.btn-category:not(disable){
     cursor: pointer;
 }
 
