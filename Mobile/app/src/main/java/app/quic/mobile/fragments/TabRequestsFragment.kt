@@ -41,7 +41,6 @@ class TabRequestsFragment(var type: String): Fragment() {
             getSpecificRequests()
         }
         else{
-            Toast.makeText(context, "Ar trebui sa mearga", Toast.LENGTH_SHORT).show()
             getAllRequests()
         }
 
@@ -63,7 +62,7 @@ class TabRequestsFragment(var type: String): Fragment() {
                     if(requestList != null) {
                         for(request in requestList) {
                             if(type == "done") {
-                                if(request.status == "accepted" || request.status == "declined")
+                                if(request.status == "done" || request.status == "declined")
                                     requests.add(request)
                             } else if(request.status == type)
                                 requests.add(request)
@@ -96,7 +95,7 @@ class TabRequestsFragment(var type: String): Fragment() {
                     if(requestList != null) {
                         for(request in requestList) {
                             if(type == "done") {
-                                if(request.status == "accepted" || request.status == "declined")
+                                if(request.status == "done" || request.status == "declined")
                                     requests.add(request)
                             } else if(request.status == type)
                                 requests.add(request)

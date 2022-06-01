@@ -38,6 +38,8 @@ interface ApiService {
     fun getRequestsByUsername(@Path("username") username: String): Call<List<RequestModel>>
     @PUT("/api/requests/{id}/status/{status}")
     fun changeStatus(@Header("Authorization") authHeader:String, @Path("id") id: Long, @Path("status") status: String): Call<RequestModel>
+    @PUT("/api/requests/{id}/status/{status}/handyman/{handyman}/time/{dateTime}")
+    fun changeMoreStatus(@Header("Authorization") authHeader:String, @Path("id") id: Long, @Path("status") status: String, @Path("handyman") handyman: String, @Path("dateTime") dateTime: String): Call<RequestModel>
 
     //Services
     @POST("/api/services/notify/title/{title}/message/{message}/topic/{topic}")

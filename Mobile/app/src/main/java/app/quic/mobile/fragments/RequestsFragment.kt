@@ -51,8 +51,8 @@ class RequestsFragment : Fragment() {
 
         val adapter = ViewPagerAdapter(childFragmentManager)
         adapter.addFragment(TabRequestsFragment("pending"),"Pending")
+        adapter.addFragment(TabRequestsFragment("processing"),"Processing")
         adapter.addFragment(TabRequestsFragment("done"),"Done")
-        adapter.addFragment(TabRequestsFragment("in progress"),"In progress")
         viewPager = view.findViewById(R.id.viewPager)
         viewPager.adapter = adapter
         tabs = view.findViewById(R.id.tabs)
