@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2846538d-5424-49dc-b73d-a14b2906b2ac" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/Dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Users.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Users.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +14,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -26,8 +23,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/pages/Users.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/navbar/Navbar.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/App.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/pages/Home.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -47,11 +46,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/package.json" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
     <property name="ts.external.directory.path" value="C:\Users\amali\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\213.6777.57\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -77,6 +76,17 @@
       <workItem from="1651569927440" duration="7195000" />
       <workItem from="1651684038041" duration="6103000" />
       <workItem from="1651728145648" duration="5087000" />
+      <workItem from="1652337915543" duration="9025000" />
+      <workItem from="1652612557500" duration="1214000" />
+      <workItem from="1652727169443" duration="1107000" />
+      <workItem from="1652772338526" duration="15394000" />
+      <workItem from="1652860634327" duration="9552000" />
+      <workItem from="1653039469826" duration="1031000" />
+      <workItem from="1653141910814" duration="8335000" />
+      <workItem from="1653199647189" duration="2517000" />
+      <workItem from="1653407189208" duration="1050000" />
+      <workItem from="1653577254360" duration="1953000" />
+      <workItem from="1653991947097" duration="22005000" />
     </task>
     <servers />
   </component>
