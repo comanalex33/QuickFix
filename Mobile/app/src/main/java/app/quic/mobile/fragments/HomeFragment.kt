@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         toolbarTitle.text = "Home ${LoggedInUser.getUserRole()}"
 
         recyclerView = view.findViewById(R.id.home_view)
-        rvRequestsAdapter = AdapterRequests(activity as MainActivity, childFragmentManager)
+        rvRequestsAdapter = AdapterRequests(activity as MainActivity, childFragmentManager, "home")
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = rvRequestsAdapter
         if(LoggedInUser.getUserRole() == "student") {

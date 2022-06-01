@@ -25,7 +25,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AdapterRequests(var context: Context, var fragment: FragmentManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterRequests(var context: Context, var fragment: FragmentManager, var page: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var arrayList = emptyList<RequestModel>()
 
@@ -56,8 +56,15 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager) : Rec
         holder.declineButton.setOnClickListener {
             changeStatus("declined", arrayList[position].id)
             holder.buttons.visibility = View.GONE
-            holder.status.text = "accepted"
+            holder.status.text = "declined"
             HelperClass.notify(arrayList[position].username, "Your service request has been declined!", "Request status", context!!)
+        }
+
+        holder.doneButton.setOnClickListener {
+            changeStatus("done", arrayList[position].id)
+            holder.buttonHome.visibility = View.GONE
+            holder.status.text = "done"
+            HelperClass.notify(arrayList[position].username, "Your problem was resolved!", "Request status", context!!)
         }
     }
 
@@ -99,6 +106,8 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager) : Rec
         var buttons: ConstraintLayout = myView.findViewById(R.id.buttons_request)
         var acceptButton: Button = myView.findViewById(R.id.accept_request_button)
         var declineButton: Button = myView.findViewById(R.id.decline_request_button)
+        var buttonHome: ConstraintLayout = myView.findViewById(R.id.buttons_request_home)
+        var doneButton: Button = myView.findViewById(R.id.done_request_button)
 
 
 
@@ -113,6 +122,10 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager) : Rec
 
             if(LoggedInUser.getUserRole() == "handyman"){
                 buttons.visibility = View.VISIBLE
+                if(page == "home")
+                    buttonHome.visibility = View.VISIBLE
+                else
+                    buttonHome.visibility = View.GONE
             }
             else{
                 buttons.visibility = View.GONE
@@ -121,6 +134,8 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager) : Rec
             if(status.text != "pending"){
                 buttons.visibility = View.GONE
             }
+
+
         }
 
         @SuppressLint("SimpleDateFormat")
