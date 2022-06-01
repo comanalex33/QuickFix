@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:tabTextAppearance="@style/CostomTabStyle"
-            app:tabBackground="@color/green"
+            app:tabBackground="@color/color2"
             app:tabGravity="fill"
             app:tabInlineLabel="true"
             app:tabMode="fixed"
