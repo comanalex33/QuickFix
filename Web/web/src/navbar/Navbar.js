@@ -28,7 +28,7 @@ const Navbar = () => {
                     <h3>QuickFix</h3>
                 </NavLink>
                 <NavMenu>
-                    <NavLink to="/dashboard" >
+                    <NavLink to="" >
                         Home
                     </NavLink>
                     {(isUserLoggedIn!==null) &&

@@ -11,6 +11,10 @@ function Users () {
     const [dropdown2,setDropdown2]=useState('')
     const [dropdown3,setDropdown3]=useState('')
 
+    useEffect(() => {
+        //studentsFilter()
+    }, []);
+
 
     const studentsFilter =()=>{
         axios.get('http://18.196.144.212/api/users/roles/student')
@@ -19,6 +23,7 @@ function Users () {
                 for (const user of res.data)
                     l.push(user);
                 setData(l);
+
             })
             .catch(err => {
                 console.log(err)
@@ -32,6 +37,7 @@ function Users () {
                 for (const user of res.data)
                     l.push(user);
                 setData(l);
+
             })
             .catch(err => {
                 console.log(err)
@@ -45,6 +51,7 @@ function Users () {
                 for (const user of res.data)
                     l.push(user);
                 setData(l);
+
             })
             .catch(err => {
                 console.log(err)
@@ -52,15 +59,20 @@ function Users () {
     }
 
     function getRoles (username) {
-        axios.get(`http://18.196.144.212/api/users/${username}/role`)
-            .then(res => {
-                setRole(res.data);
-                console.log(res.data)
-                filter()
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            axios.get(`http://18.196.144.212/api/users/${username}/role`,config)
+                .then(res => {
+                    setRole(res.data);
+                    //console.log(res.data)
+                    filter()
+                })
+                .catch(err => {
+                    console.log(err)
+
+                })
+
+
+
+
     }
     const noRoleFilter= ()=>{
         axios.get('http://18.196.144.212/api/users/roles/none')
@@ -69,6 +81,7 @@ function Users () {
                 for (const user of res.data)
                     l.push(user);
                 setData(l);
+
             })
             .catch(err => {
                 console.log(err)
@@ -95,12 +108,13 @@ function Users () {
             setDropdown3("")
             return
         }
-        if(role===null){
+        else{
             setDropdown1("admin");
             setDropdown2("student");
-            setDropdown3("handyman")
+            setDropdown3("handyman");
             return
         }
+
     }
 
     const token=sessionStorage.getItem('token');
@@ -110,29 +124,50 @@ function Users () {
         }
     }
 
-    const handleDeleteRole =(role,username)=>{
-        axios.delete(`http://18.196.144.212/api/users/${username}/removeRole`, config)
-            .then(res => {
-                console.log(res.data)
-                handelChangeRole(role,username)
+    const handleDeleteRole =(e,username)=>{
+        if(role!=='none') {
+            axios.delete(`http://18.196.144.212/api/users/${username}/removeRole`, config)
+                .then(res => {
+                    console.log(res.data)
+                    handelChangeRole(e, username)
 
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+       else{
+            handelChangeRole(e, username)
+        }
+
     }
 
-    const handelChangeRole=(role,username)=>{
-        axios.post(`http://18.196.144.212/api/users/${username}/roles/${role}`,null, config)
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+    const handelChangeRole=(e,username)=>{
+        if(e==='admin'){
+            axios.post(`http://18.196.144.212/api/users/${username}/makeadmin`, null, config)
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+        else {
+            axios.post(`http://18.196.144.212/api/users/${username}/roles/${e}`, null, config)
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+        if(role==='admin') adminsFilter();
+        if(role==='student') studentsFilter();
+        if(role==='handyman') handyMansFilter();
+        if(role==='none') noRoleFilter()
     }
 
-   /* function deleteAccount(username){
+   const deleteAccount =username=>{
         axios.delete(`http://18.196.144.212/api/users/${username}`, config)
             .then(res => {
                 console.log(res.data)
@@ -140,15 +175,14 @@ function Users () {
             .catch(err => {
                 console.log(err)
             })
-    }*/
-
+    }
 
 
     const usersList = data.map((item)=>
         <div className="card-body"  key={item.id}>
             <h5 className="card-title" >{item.userName}</h5>
             <p className="card-text">{item.email}</p>
-            <button className="btn-user" /*onClick={deleteAccount(item.userName)}*/>Delete</button>
+            <button className="btn-user" onClick={()=>deleteAccount(item.userName)}>Delete</button>
             <DropdownButton className="btn-user" size="sm" id="dropdown-basic-button" title="Change role" onClick={getRoles(item.userName)}
                             onSelect={(event) => handleDeleteRole(event,item.userName)}>
                 <Dropdown.Item eventKey={dropdown1} >{dropdown1}
@@ -161,6 +195,8 @@ function Users () {
             </DropdownButton>
         </div>
     );
+
+
     return (
         <div>
             <div className="users-container">
