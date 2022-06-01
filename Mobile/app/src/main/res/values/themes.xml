@@ -17,4 +17,8 @@
     <style name="Icon_size">
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="CostomTabStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+    </style>
 </resources>

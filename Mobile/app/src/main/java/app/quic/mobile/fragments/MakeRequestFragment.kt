@@ -61,39 +61,7 @@ class MakeRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
         prioritySpinner.adapter = adapter2
 
         sendRequestButton.setOnClickListener {
-            val requestModel = RequestNewModel(LoggedInUser.username!!, descriptionField.text.toString(), roomNumberField.text.toString(), causeField.text.toString(), selectedCategory!!.name, selectedPriority!!, "pending", LocalDateTime.now().toString())
-            val requestCall: Call<RequestModel> = ApiClient.getService().sendRequest(LoggedInUser.getTokenForAuthentication()!!, requestModel)
-
-            requestCall.enqueue(object : Callback<RequestModel> {
-                override fun onResponse(call: Call<RequestModel>, response: Response<RequestModel> ) {
-                    if(response.isSuccessful) {
-                        HelperClass.notify("handyman", "A new service request has been sent!", "Request status", context!!)
-                        val dialog = InfoDialog("Request sent successfully!")
-                        dialog.show(childFragmentManager, "Information dialog")
-                        //Toast.makeText(context, "Request sent successfully!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        val errorMessage = response.errorBody()?.string()
-                        if(errorMessage != null) {
-                            val dialog = InfoDialog(errorMessage)
-                            dialog.show(childFragmentManager, "Information dialog")
-                        } else {
-                            val dialog = InfoDialog("Something went wrong")
-                            dialog.show(childFragmentManager, "Information dialog")
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<RequestModel>, t: Throwable) {
-                    if(t.message != null){
-                        val dialog = InfoDialog(t.message!!)
-                        dialog.show(childFragmentManager, "Information dialog")
-                    } else {
-                        val dialog = InfoDialog("Something went wrong")
-                        dialog.show(childFragmentManager, "Information dialog")
-                    }
-                }
-
-            })
+            getUserData()
         }
 
         return view
@@ -117,6 +85,81 @@ class MakeRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
             override fun onFailure(call: Call<List<CategoryModel>>, t: Throwable) {
+                if(t.message != null){
+                    val dialog = InfoDialog(t.message!!)
+                    dialog.show(childFragmentManager, "Information dialog")
+                } else {
+                    val dialog = InfoDialog("Something went wrong")
+                    dialog.show(childFragmentManager, "Information dialog")
+                }
+            }
+
+        })
+    }
+
+    private fun getUserData() {
+        val getDataCall: Call<UserModel> = ApiClient.getService().getUserData(LoggedInUser.username!!)
+
+        getDataCall.enqueue(object : Callback<UserModel> {
+            override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                if (response.isSuccessful) {
+                    val userModel = response.body()!!
+                    getBuildingName(userModel.buildingId)
+                }
+            }
+
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                //Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
+    private fun getBuildingName(id: Long) {
+        val getBuildingById: Call<BuildingModel> = ApiClient.getService().getBuildingById(id)
+
+        getBuildingById.enqueue(object : Callback<BuildingModel> {
+            override fun onResponse(call: Call<BuildingModel>, response: Response<BuildingModel>) {
+                val building = if(response.isSuccessful) {
+                    response.body()!!.name
+                } else {
+                    //Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                    "-"
+                }
+                makeRequest(building!!)
+            }
+
+            override fun onFailure(call: Call<BuildingModel>, t: Throwable) {
+                //Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
+    private fun makeRequest(building: String) {
+        val requestModel = RequestNewModel(LoggedInUser.username!!, building, descriptionField.text.toString(), roomNumberField.text.toString(), causeField.text.toString(), selectedCategory!!.name, selectedPriority!!, "pending", LocalDateTime.now().toString())
+        val requestCall: Call<RequestModel> = ApiClient.getService().sendRequest(LoggedInUser.getTokenForAuthentication()!!, requestModel)
+
+        requestCall.enqueue(object : Callback<RequestModel> {
+            override fun onResponse(call: Call<RequestModel>, response: Response<RequestModel> ) {
+                if(response.isSuccessful) {
+                    HelperClass.notify("handyman", "A new service request has been sent!", "Request status", context!!)
+                    val dialog = InfoDialog("Request sent successfully!")
+                    dialog.show(childFragmentManager, "Information dialog")
+                    //Toast.makeText(context, "Request sent successfully!", Toast.LENGTH_SHORT).show()
+                } else {
+                    val errorMessage = response.errorBody()?.string()
+                    if(errorMessage != null) {
+                        val dialog = InfoDialog(errorMessage)
+                        dialog.show(childFragmentManager, "Information dialog")
+                    } else {
+                        val dialog = InfoDialog("Something went wrong")
+                        dialog.show(childFragmentManager, "Information dialog")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<RequestModel>, t: Throwable) {
                 if(t.message != null){
                     val dialog = InfoDialog(t.message!!)
                     dialog.show(childFragmentManager, "Information dialog")
