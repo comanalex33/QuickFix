@@ -56,6 +56,7 @@ namespace Server.Controllers
 
         [HttpGet]
         [Route("{username}/role")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> GetUserRoles(string username)
         {
             var user = await _userModel.FindByNameAsync(username);
@@ -64,6 +65,10 @@ namespace Server.Controllers
                 return BadRequest("User " + username + " not found");
             }
             var roles = await _userModel.GetRolesAsync(user);
+            if(roles.Count == 0)
+            {
+                return Ok("none");
+            }
             return Ok(roles[0]);
         }
 
