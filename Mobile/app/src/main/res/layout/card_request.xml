@@ -10,6 +10,7 @@
     android:layout_marginTop="5dp"
     android:layout_marginBottom="1dp"
     android:layout_margin="4dp"
+    android:id="@+id/request_card"
     android:layout_centerHorizontal="true"
     card_view:cardCornerRadius="10dp"
     card_view:contentPadding="3dp">
@@ -17,7 +18,6 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/request_card"
         android:background="@color/color4"
         >
 
@@ -191,13 +191,32 @@
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/request_status_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/request_status_message_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.5"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/buttons_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:visibility="gone"
                 android:paddingBottom="5dp"
-                >
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/accept_request_button"
@@ -213,7 +232,7 @@
                     card_view:layout_constraintHorizontal_bias="0.5"
                     card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
-                    card_view:layout_constraintWidth_percent="0.35"/>
+                    card_view:layout_constraintWidth_percent="0.35" />
 
                 <Button
                     android:id="@+id/decline_request_button"
@@ -229,7 +248,7 @@
                     card_view:layout_constraintHorizontal_bias="0.5"
                     card_view:layout_constraintStart_toEndOf="@+id/accept_request_button"
                     card_view:layout_constraintTop_toTopOf="parent"
-                    card_view:layout_constraintWidth_percent="0.35"/>
+                    card_view:layout_constraintWidth_percent="0.35" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

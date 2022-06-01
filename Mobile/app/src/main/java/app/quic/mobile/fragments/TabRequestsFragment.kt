@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,7 @@ class TabRequestsFragment(var type: String): Fragment() {
             getSpecificRequests()
         }
         else{
+            Toast.makeText(context, "Ar trebui sa mearga", Toast.LENGTH_SHORT).show()
             getAllRequests()
         }
 
@@ -60,10 +62,14 @@ class TabRequestsFragment(var type: String): Fragment() {
                     val requestList: List<RequestModel>? = response.body()
                     if(requestList != null) {
                         for(request in requestList) {
-                            requests.add(request)
+                            if(type == "done") {
+                                if(request.status == "accepted" || request.status == "declined")
+                                    requests.add(request)
+                            } else if(request.status == type)
+                                requests.add(request)
                         }
                     }
-                    requestList?.let { rvRequestsAdapter.setRequests(it) }
+                    rvRequestsAdapter.setRequests(requests)
                 }
             }
 
@@ -89,10 +95,14 @@ class TabRequestsFragment(var type: String): Fragment() {
                     val requestList: List<RequestModel>? = response.body()
                     if(requestList != null) {
                         for(request in requestList) {
-                            requests.add(request)
+                            if(type == "done") {
+                                if(request.status == "accepted" || request.status == "declined")
+                                    requests.add(request)
+                            } else if(request.status == type)
+                                requests.add(request)
                         }
                     }
-                    requestList?.let { rvRequestsAdapter.setRequests(it) }
+                    rvRequestsAdapter.setRequests(requests)
                 }
             }
 

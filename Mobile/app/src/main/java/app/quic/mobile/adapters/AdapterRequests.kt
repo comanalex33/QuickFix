@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,13 +52,17 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager, var s
         holder.acceptButton.setOnClickListener {
             changeStatus("accepted", arrayList[position].id)
             holder.buttons.visibility = View.GONE
+            holder.statusMessageBox.visibility = View.VISIBLE
+            holder.statusMessage.text = "Accepted request"
             holder.status.text = "accepted"
             HelperClass.notify(arrayList[position].username, "Your service request has been accepted!", "Request status", context!!)
         }
         holder.declineButton.setOnClickListener {
             changeStatus("declined", arrayList[position].id)
             holder.buttons.visibility = View.GONE
-            holder.status.text = "accepted"
+            holder.statusMessageBox.visibility = View.VISIBLE
+            holder.statusMessage.text = "Declined request"
+            holder.status.text = "declined"
             HelperClass.notify(arrayList[position].username, "Your service request has been declined!", "Request status", context!!)
         }
     }
@@ -98,10 +103,10 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager, var s
         var status: TextView = myView.findViewById(R.id.card_request_status)
         var creationDate: TextView = myView.findViewById(R.id.card_request_date_created)
         var buttons: ConstraintLayout = myView.findViewById(R.id.buttons_request)
-        var card: LinearLayoutCompat = myView.findViewById(R.id.request_card)
         var acceptButton: Button = myView.findViewById(R.id.accept_request_button)
         var declineButton: Button = myView.findViewById(R.id.decline_request_button)
-
+        var statusMessageBox: ConstraintLayout = myView.findViewById(R.id.request_status_message)
+        var statusMessage: TextView = myView.findViewById(R.id.request_status_message_text)
 
 
         fun initializeUIComponents(model: RequestModel){
@@ -115,14 +120,21 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager, var s
 
             if(LoggedInUser.getUserRole() == "handyman"){
                 buttons.visibility = View.VISIBLE
-            }
-            else{
+
+            } else {
                 buttons.visibility = View.GONE
             }
 
-            if(status.text.toString() != statusText){
-                card.visibility = View.GONE
+            if(statusText != "pending") {
+                buttons.visibility = View.GONE
             }
+
+//            if(statusText == "done") {
+//                if(status.text.toString() != "accepted" && status.text.toString() != "declined")
+//                    card.visibility = View.GONE
+//            } else if(status.text.toString() != statusText){
+//                card.visibility = View.GONE
+//            }
         }
 
         @SuppressLint("SimpleDateFormat")
