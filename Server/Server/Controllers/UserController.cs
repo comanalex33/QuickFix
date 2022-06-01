@@ -33,6 +33,12 @@ namespace Server.Controllers
             {
                 return Ok(await _userModel.Users.ToListAsync());
             }
+            if(roleName.Equals("none"))
+            {
+                var roleUsers = await UsersInAnyRole();
+                var allUsers = await _userModel.Users.ToListAsync();
+                return Ok(allUsers.Where(user => !roleUsers.Any(userInRole => userInRole.Id.Equals(user.Id))));
+            }
             return Ok(await _userModel.GetUsersInRoleAsync(roleName));
         }
 
@@ -162,6 +168,23 @@ namespace Server.Controllers
                 return NotFound();
             }
             return Ok("User " + username + " deleted");
+        }
+
+        private async Task<List<User>> UsersInAnyRole()
+        {
+            var admins = await _userModel.GetUsersInRoleAsync("admin");
+            var students = await _userModel.GetUsersInRoleAsync("student");
+            var handymans = await _userModel.GetUsersInRoleAsync("handyman");
+            foreach(var student in students)
+            {
+                admins.Add(student);
+            }
+            foreach(var handyman in handymans)
+            {
+                admins.Add(handyman);
+            }
+
+            return admins.ToList();
         }
     }
 }
