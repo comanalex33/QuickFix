@@ -40,7 +40,26 @@ const Category = () => {
         setNewName(event.target.value)
     }
 
+    const token = sessionStorage.getItem('token');
+    const config = {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }
 
+    function addNewCategory() {
+        let category = {
+            name: name1
+        }
+        axios.post('http://18.196.144.212/api/category', category, config)
+            .then(res => {
+                console.log(res.data)
+                closeModal(true)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
     const buildingsList = data.map((item)=>
         <div className="col-md-4"  key={item.id}>
             <div className="card mb-4 shadow-sm">
@@ -95,7 +114,7 @@ const Category = () => {
                             <TextField label='Name' placeholder='Enter category name' required onChange={handleName1Change}/>
                         </div>
                         <div className="popup-button">
-                            <Button variant="contained" color='info' /*onClick={addNewCategory}*/>Add</Button>
+                            <Button variant="contained" color='info' onClick={addNewCategory}>Add</Button>
                         </div>
 
                     </div>
