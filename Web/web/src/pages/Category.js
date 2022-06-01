@@ -60,6 +60,34 @@ const Category = () => {
                 console.log(err)
             })
     }
+
+    const handleDeleteButton = id => {
+        if (window.confirm("Are you sure you want to delete?")) {
+            console.log(id)
+            axios.delete(`http://18.196.144.212/api/category/${id}`, config)
+                .then((response) => {
+                    console.log(response);
+                })
+        }
+    }
+
+    const modifyCategory= (id, name) => {
+        axios.put(`http://18.196.144.212/api/category/${id}/name/${name}`,null,config)
+            .then(res => {
+                console.log(res.data)
+                closeModal2(true)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+
+    const saveValue = (name,id) => {
+        setButtonModify(true);
+        setName(name);
+        setId(id)
+    }
     const buildingsList = data.map((item)=>
         <div className="col-md-4"  key={item.id}>
             <div className="card mb-4 shadow-sm">
@@ -69,7 +97,7 @@ const Category = () => {
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
                             <div className="buildings-button">
-                                <Button variant="outlined" /*onClick={()=>saveValue(item.name,item.id)}*/>Modify</Button>
+                                <Button variant="outlined" onClick={()=>saveValue(item.name,item.id)}>Modify</Button>
                                 <Popup className="building-popup" open={buttonModify} >
                                     <div className="popup-content">
                                         <a className="popup-close"  onClick={closeModal2}>
@@ -82,14 +110,14 @@ const Category = () => {
                                             <TextField label='New category name' placeholder='Enter new category name' required onChange={handleNewNameChange}/>
                                         </div>
                                         <div className="popup-button">
-                                            <Button variant="contained" color='info' /*onClick={()=>modifyCategory(id,newName)}*/ >Change name</Button>
+                                            <Button variant="contained" color='info' onClick={()=>modifyCategory(id,newName)}>Change name</Button>
                                         </div>
 
                                     </div>
                                 </Popup>
                             </div>
                             <div className="buildings-button">
-                                <Button variant="contained" /*onClick={() => handleDeleteButton(item.id)}*/>Delete</Button>
+                                <Button variant="contained" onClick={() => handleDeleteButton(item.id)}>Delete</Button>
                             </div>
                         </div>
                     </div>
