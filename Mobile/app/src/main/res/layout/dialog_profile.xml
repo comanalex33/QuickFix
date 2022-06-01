@@ -124,6 +124,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:visibility="gone"
+                    android:popupBackground="@color/color3"
                     />
                 <TextView
                     android:id="@+id/profile_building"
@@ -149,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/curve_shape"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/color2"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
@@ -164,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/curve_shape"
-                android:backgroundTint="@color/red"
+                android:backgroundTint="@color/color6"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
@@ -185,16 +186,16 @@
                 android:id="@+id/profile_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/curve_shape"
-                android:backgroundTint="@color/green"
-                android:src="@drawable/ic_edit"/>
+                android:backgroundTint="@color/color2"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:src="@drawable/ic_edit" />
         </RelativeLayout>
     </LinearLayout>
 

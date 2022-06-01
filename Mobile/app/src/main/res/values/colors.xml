@@ -11,4 +11,11 @@
     <color name="green">#28F831</color>
     <color name="red">#FF1601</color>
     <color name="blue">#158EEF</color>
+
+    <color name="color1">#008080</color>
+    <color name="color2">#35B5AC</color>
+    <color name="color3">#89D5D2</color>
+    <color name="color4">#BBF1F1</color>
+    <color name="color5">#C09591</color>
+    <color name="color6">#A86561</color>
 </resources>

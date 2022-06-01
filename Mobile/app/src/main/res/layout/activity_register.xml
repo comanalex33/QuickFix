@@ -142,7 +142,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:background="@drawable/curve_shape"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/color2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
