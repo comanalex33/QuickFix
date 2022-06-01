@@ -12,6 +12,7 @@ const Category = () => {
     const [id,setId]=useState(0)
     const [buttonAdd, setButtonAdd] = useState(false)
     const [buttonModify, setButtonModify] = useState(false)
+    const [error,setError]=useState('')
     const closeModal = () => setButtonAdd(false)
     const closeModal2 = () => {
         setButtonModify(false)
@@ -41,6 +42,7 @@ const Category = () => {
     }
     const handleNewNameChange = event => {
         setNewName(event.target.value)
+        setError('')
     }
 
     const token = sessionStorage.getItem('token');
@@ -82,6 +84,10 @@ const Category = () => {
             })
             .catch(err => {
                 console.log(err)
+                if(err.response.status===400){
+                    setError(err.response.data)
+                    //console.log(error)
+                }
             })
     }
 
@@ -113,6 +119,7 @@ const Category = () => {
                                             <TextField label='New category name' placeholder='Enter new category name' required
                                                        onChange={handleNewNameChange} error={name === newName}
                                                        helperText={newName === name ? 'The new name is identical!' : ' '}/>
+                                            <h6>{error}</h6>
                                         </div>
                                         <div className="popup-button">
                                             <Button variant="contained" color='info' onClick={()=>modifyCategory(id,newName)}>Change name</Button>

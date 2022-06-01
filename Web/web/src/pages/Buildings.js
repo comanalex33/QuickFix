@@ -2,7 +2,6 @@ import React, {useState,useEffect} from 'react';
 import axios from 'axios'
 import {Button,TextField} from '@mui/material'
 import Popup from 'reactjs-popup'
-import queryString from 'query-string'
 import '../styles/Buildings.css'
 
 const Buildings = () => {
@@ -12,10 +11,12 @@ const Buildings = () => {
     const [buttonModify, setButtonModify] = useState(false)
     const [newName, setNewName] = useState('')
     const [id,setId]=useState(0)
+    const [error,setError]=useState('')
     const closeModal = () => setButtonAdd(false)
     const closeModal2 = () => {
         setButtonModify(false)
         setNewName(null)
+
     }
 
     useEffect(() => {
@@ -41,6 +42,7 @@ const Buildings = () => {
 
     const handleNewNameChange = event => {
         setNewName(event.target.value)
+        setError('')
     }
 
     const token=sessionStorage.getItem('token');
@@ -85,6 +87,10 @@ const Buildings = () => {
             })
             .catch(err => {
                 console.log(err)
+                if(err.response.status===400){
+                    setError(err.response.data)
+                    //console.log(error)
+                }
             })
     }
 
@@ -116,6 +122,7 @@ const Buildings = () => {
                                                 <TextField label='New building name' placeholder='Enter new building name' required
                                                            onChange={handleNewNameChange} error={name === newName}
                                                            helperText={newName === name ? 'The new name is identical!' : ' '}/>
+                                                <h6>{error}</h6>
                                             </div>
                                             <div className="popup-button">
                                                 <Button variant="contained" color='info' onClick={()=>modifyBuilding(id,newName)}>Change name</Button>

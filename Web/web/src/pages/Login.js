@@ -9,7 +9,6 @@ import Popup from 'reactjs-popup'
 function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [users, setUsers] = useState([]);
     const [buttonSignIn,setButtonSignIn]=useState(false)
     let token;
 
@@ -17,11 +16,11 @@ function Login(){
     const closeModal = () => setButtonSignIn(false);
 
     function handleLoginButtonClick () {
-        if(username==''){
+        if(username===''){
             alert("Username field is empty!")
         }
 
-        if(password==''){
+        if(password===''){
             alert("Password field is empty!")
         }
         else {
@@ -37,7 +36,7 @@ function Login(){
                     console.log(decode.roles);
                     sessionStorage.setItem('token', token);
                     if(decode.roles==='admin'){
-                        navigate("/buildings")
+                        navigate("")
                     }
                     else setButtonSignIn(btn=>!btn)
                 })

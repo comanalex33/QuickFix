@@ -13,23 +13,6 @@ function Register() {
 
 
     const navigate=useNavigate()
-    function handleSignUp () {
-        let user = {
-            username: username,
-            email: email,
-            password: password
-        }
-
-        axios.post('http://18.196.144.212/api/auth/register', user)
-            .then(res => {
-                console.log(res);
-
-            })
-            .catch(err => {
-                console.log(err)
-            });
-        navigate('/login')
-    }
 
     const handleEmailChange = event => {
         setEmail(event.target.value)
@@ -46,6 +29,25 @@ function Register() {
     const handleRePasswordChange = event => {
         setRePassword(event.target.value)
     }
+
+    const handleSubmit = () => {
+        alert('You have submitted the form.')
+        let user = {
+            username: username,
+            email: email,
+            password: password
+        }
+
+        axios.post(`http://18.196.144.212/api/auth/register`, user)
+            .then(res => {
+                console.log(res);
+
+            })
+            .catch(err => {
+                console.log(err)
+            });
+        navigate('/login')
+    }
     return (
         <div>
             <div className="registerTitle">
@@ -58,7 +60,7 @@ function Register() {
                             <br/>
                             <Typography variant='caption' gutterBottom>Please fill this form to create an account!</Typography>
                         </Grid>
-                        <form className="form" onSubmit={handleSignUp}>
+                        <form className="form" onSubmit={handleSubmit}>
                             <TextField fullWidth label='Name' placeholder="Enter your name" onChange={handleUsernameChange}
                                        />
                             <TextField fullWidth label='Email' placeholder="Enter your email" onChange={handleEmailChange}
