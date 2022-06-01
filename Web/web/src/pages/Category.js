@@ -13,7 +13,10 @@ const Category = () => {
     const [buttonAdd, setButtonAdd] = useState(false)
     const [buttonModify, setButtonModify] = useState(false)
     const closeModal = () => setButtonAdd(false)
-    const closeModal2 = () => setButtonModify(false)
+    const closeModal2 = () => {
+        setButtonModify(false)
+        setNewName('')
+    }
 
     useEffect(() => {
         axios.get('http://18.196.144.212/api/category')
@@ -107,7 +110,9 @@ const Category = () => {
                                             <TextField label='Category name' value={name} required/>
                                         </div>
                                         <div className="popup-textfield">
-                                            <TextField label='New category name' placeholder='Enter new category name' required onChange={handleNewNameChange}/>
+                                            <TextField label='New category name' placeholder='Enter new category name' required
+                                                       onChange={handleNewNameChange} error={name === newName}
+                                                       helperText={newName === name ? 'The new name is identical!' : ' '}/>
                                         </div>
                                         <div className="popup-button">
                                             <Button variant="contained" color='info' onClick={()=>modifyCategory(id,newName)}>Change name</Button>
