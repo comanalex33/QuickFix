@@ -34,7 +34,7 @@ class RequestsFragment : Fragment() {
         val toolbarTitle = (activity as MainActivity).toolbar.findViewById<TextView>(R.id.toolbar_title)
         toolbarTitle.text = "Requests"
         recyclerView = view.findViewById(R.id.requests_view)
-        rvRequestsAdapter = AdapterRequests(activity as MainActivity)
+        rvRequestsAdapter = AdapterRequests(activity as MainActivity, childFragmentManager)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = rvRequestsAdapter
         if(LoggedInUser.getUserRole() == "student") {

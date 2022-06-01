@@ -25,6 +25,7 @@ import app.quic.mobile.models.UserModel
 import app.quic.mobile.services.ApiClient
 import app.quic.mobile.services.LoggedInUser
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -88,6 +89,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_requests -> addFragment(RequestsFragment())
             R.id.nav_make_request -> addFragment(MakeRequestFragment())
             R.id.nav_logout -> {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic("all")
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(LoggedInUser.getUserRole()!!)
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(LoggedInUser.username!!)
                 LoggedInUser.token = null
                 LoggedInUser.tokenInfo = null
                 val intent = Intent(applicationContext, LoginActivity::class.java)
@@ -131,12 +135,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     userModel = response.body()!!
                     getBuildingName(userModel.buildingId)
                 } else {
-                    Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
             }
 
         })
@@ -150,13 +154,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 buildingName = if(response.isSuccessful) {
                     response.body()!!.name
                 } else {
-                    Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
                     "-"
                 }
             }
 
             override fun onFailure(call: Call<BuildingModel>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, "Failure", Toast.LENGTH_LONG).show()
             }
 
         })

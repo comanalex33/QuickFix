@@ -153,7 +153,7 @@ class ProfileDialog : DialogFragment(), AdapterView.OnItemSelectedListener {
             }
 
             override fun onFailure(call: Call<List<BuildingModel>>, t: Throwable) {
-                Toast.makeText(context, "Failure", Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, "Failure", Toast.LENGTH_LONG).show()
             }
 
         })
@@ -164,7 +164,7 @@ class ProfileDialog : DialogFragment(), AdapterView.OnItemSelectedListener {
         if (LoggedInUser.getTokenForAuthentication() != null) {
             tokenAuth = LoggedInUser.getTokenForAuthentication()!!
         } else {
-            Toast.makeText(context, "Authentication went wrong", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Authentication went wrong", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -193,7 +193,7 @@ class ProfileDialog : DialogFragment(), AdapterView.OnItemSelectedListener {
             }
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                Toast.makeText(context, "Failure", Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, "Failure", Toast.LENGTH_LONG).show()
             }
 
         })
