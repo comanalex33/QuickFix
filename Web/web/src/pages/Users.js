@@ -9,9 +9,10 @@ function Users () {
     const[role,setRole]=useState('')
     const [dropdown1,setDropdown1]=useState('')
     const [dropdown2,setDropdown2]=useState('')
+    const [dropdown3,setDropdown3]=useState('')
 
 
-    function studentsFilter(){
+    const studentsFilter =()=>{
         axios.get('http://18.196.144.212/api/users/roles/student')
             .then(res => {
                 let l = [];
@@ -24,7 +25,7 @@ function Users () {
             })
     }
 
-    function handyMansFilter(){
+    const handyMansFilter=()=>{
         axios.get('http://18.196.144.212/api/users/roles/handyman')
             .then(res => {
                 let l = [];
@@ -37,7 +38,7 @@ function Users () {
             })
     }
 
-    function adminsFilter(){
+    const adminsFilter =()=>{
         axios.get('http://18.196.144.212/api/users/roles/admin')
             .then(res => {
                 let l = [];
@@ -54,8 +55,20 @@ function Users () {
         axios.get(`http://18.196.144.212/api/users/${username}/role`)
             .then(res => {
                 setRole(res.data);
-                //console.log(res.data)
+                console.log(res.data)
                 filter()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    const noRoleFilter= ()=>{
+        axios.get('http://18.196.144.212/api/users/roles/none')
+            .then(res => {
+                let l = [];
+                for (const user of res.data)
+                    l.push(user);
+                setData(l);
             })
             .catch(err => {
                 console.log(err)
@@ -66,15 +79,27 @@ function Users () {
         if(role==="admin"){
             setDropdown1("student");
             setDropdown2("handyman");
+            setDropdown3("")
+            return
         }
 
         if(role==="student"){
             setDropdown1("admin");
             setDropdown2("handyman");
+            setDropdown3("")
+            return
         }
         if(role==="handyman"){
             setDropdown1("admin");
             setDropdown2("student");
+            setDropdown3("")
+            return
+        }
+        if(role===null){
+            setDropdown1("admin");
+            setDropdown2("student");
+            setDropdown3("handyman")
+            return
         }
     }
 
@@ -85,7 +110,7 @@ function Users () {
         }
     }
 
-    function handleDeleteRole(role,username){
+    const handleDeleteRole =(role,username)=>{
         axios.delete(`http://18.196.144.212/api/users/${username}/removeRole`, config)
             .then(res => {
                 console.log(res.data)
@@ -97,7 +122,7 @@ function Users () {
             })
     }
 
-    function handelChangeRole(role,username){
+    const handelChangeRole=(role,username)=>{
         axios.post(`http://18.196.144.212/api/users/${username}/roles/${role}`,null, config)
             .then(res => {
                 console.log(res.data)
@@ -130,6 +155,8 @@ function Users () {
                 </Dropdown.Item>
                 <Dropdown.Item eventKey={dropdown2} >{dropdown2}
                 </Dropdown.Item>
+                <Dropdown.Item eventKey={dropdown3} >{dropdown3}
+                </Dropdown.Item>
 
             </DropdownButton>
         </div>
@@ -142,6 +169,7 @@ function Users () {
                         <button type="button" className="btn btn-category" onClick={studentsFilter}>Students</button>
                         <button type="button" className="btn btn-category" onClick={handyMansFilter}>Handymans</button>
                         <button type="button" className="btn btn-category" onClick={adminsFilter}>Admins</button>
+                        <button type="button" className="btn btn-category" onClick={noRoleFilter}>Users without role</button>
                     </div>
                     <div className="second-column">
                         <div className="rows">
