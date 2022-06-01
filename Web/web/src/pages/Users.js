@@ -9,7 +9,7 @@ function Users () {
     const[role,setRole]=useState('')
     const [dropdown1,setDropdown1]=useState('')
     const [dropdown2,setDropdown2]=useState('')
-    
+
 
     function studentsFilter(){
         axios.get('http://18.196.144.212/api/users/roles/student')
@@ -107,13 +107,23 @@ function Users () {
             })
     }
 
+   /* function deleteAccount(username){
+        axios.delete(`http://18.196.144.212/api/users/${username}`, config)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }*/
+
 
 
     const usersList = data.map((item)=>
         <div className="card-body"  key={item.id}>
             <h5 className="card-title" >{item.userName}</h5>
             <p className="card-text">{item.email}</p>
-            <button className="btn-user" >Delete</button>
+            <button className="btn-user" /*onClick={deleteAccount(item.userName)}*/>Delete</button>
             <DropdownButton className="btn-user" size="sm" id="dropdown-basic-button" title="Change role" onClick={getRoles(item.userName)}
                             onSelect={(event) => handleDeleteRole(event,item.userName)}>
                 <Dropdown.Item eventKey={dropdown1} >{dropdown1}

@@ -39,8 +39,8 @@ const Navbar = () => {
                     <NavLink to="/users" >
                         Users
                     </NavLink>}
-                    <NavLink to="/contact" >
-                        Contact
+                    <NavLink to="/category" >
+                        Categories
                     </NavLink>
                 </NavMenu>
                 {(isUserLoggedIn===null) ?
