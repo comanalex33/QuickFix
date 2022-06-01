@@ -79,6 +79,7 @@ namespace Server.Controllers
             {
                 return BadRequest("This category does not exist!");
             }
+
             _context.Category.Remove(category);
             await _context.SaveChangesAsync();
 
@@ -93,6 +94,12 @@ namespace Server.Controllers
             if (category == null)
             {
                 return BadRequest("This category does not exist!");
+            }
+
+            var categoryCheck = _context.Category.Where(item => item.Name == name).FirstOrDefault();
+            if (categoryCheck != null)
+            {
+                return BadRequest("This category already exists");
             }
 
             category.Name = name;

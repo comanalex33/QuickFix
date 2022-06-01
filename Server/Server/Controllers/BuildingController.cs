@@ -93,7 +93,13 @@ namespace Server.Controllers
             var building = await _context.Building.FindAsync(id);
             if (building == null)
             {
-                return BadRequest("This building does not exist!");
+                return BadRequest("This building does not exist");
+            }
+
+            var buildingCheck = _context.Building.Where(item => item.Name == name).FirstOrDefault();
+            if (buildingCheck != null)
+            {
+                return BadRequest( "This building already exists");
             }
 
             building.Name = name;
