@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using Server.RequestModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,6 +74,12 @@ namespace Server.Controllers
                 return BadRequest("This user does not exist");
             }
 
+            var building = await _context.Building.FirstOrDefaultAsync(item => item.Name == requestModel.Building);
+            if (building == null)
+            {
+                return BadRequest("This building does not exist");
+            }
+
             var category = await _context.Category.FirstOrDefaultAsync(item => item.Name == requestModel.Category);
             if (category == null)
             {
@@ -86,7 +93,7 @@ namespace Server.Controllers
                 requestCheck = await _context.Request.FindAsync(Id);
             }
 
-            RequestModel request = new RequestModel(Id, requestModel.Username, requestModel.Description, requestModel.RoomNumber, requestModel.Cause, requestModel.Category, requestModel.Priority, requestModel.Status, requestModel.dateTime);
+            RequestModel request = new RequestModel(Id, requestModel.Username, requestModel.Building, null, requestModel.Description, requestModel.RoomNumber, requestModel.Cause, requestModel.Category, requestModel.Priority, requestModel.Status, requestModel.dateTime, new System.DateTime());
             _context.Request.Add(request);
             await _context.SaveChangesAsync();
 
@@ -119,6 +126,32 @@ namespace Server.Controllers
             }
 
             request.Status = status;
+
+            _context.Request.Update(request);
+            _context.SaveChanges();
+
+            return request;
+        }
+
+        [HttpPut("{id}/status/{status}/handyman/{handyman}/time/{dateTime}")]
+        [Authorize(Roles = "handyman")]
+        public async Task<ActionResult<RequestModel>> UpdateMoreStatus(string status, long id, string handyman, DateTime dateTime)
+        {
+            var request = await _context.Request.FindAsync(id);
+            if (request == null)
+            {
+                return BadRequest("This request does not exist!");
+            }
+
+            var user = await _userModel.FindByNameAsync(handyman);
+            if (user == null)
+            {
+                return BadRequest("This handyman does not exist");
+            }
+
+            request.Status = status;
+            request.Handyman = handyman;
+            request.acceptedDate = dateTime;
 
             _context.Request.Update(request);
             _context.SaveChanges();

@@ -7,6 +7,8 @@ namespace Server.RequestModels
         public string Username { get; set; }
         
         public string Description { get; set; }
+
+        public string Building { get; set; }
         
         public string RoomNumber { get; set; }
         
