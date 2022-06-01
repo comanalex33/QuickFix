@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +26,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AdapterRequests(var context: Context, var fragment: FragmentManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterRequests(var context: Context, var fragment: FragmentManager, var statusText: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var arrayList = emptyList<RequestModel>()
 
@@ -97,6 +98,7 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager) : Rec
         var status: TextView = myView.findViewById(R.id.card_request_status)
         var creationDate: TextView = myView.findViewById(R.id.card_request_date_created)
         var buttons: ConstraintLayout = myView.findViewById(R.id.buttons_request)
+        var card: LinearLayoutCompat = myView.findViewById(R.id.request_card)
         var acceptButton: Button = myView.findViewById(R.id.accept_request_button)
         var declineButton: Button = myView.findViewById(R.id.decline_request_button)
 
@@ -118,8 +120,8 @@ class AdapterRequests(var context: Context, var fragment: FragmentManager) : Rec
                 buttons.visibility = View.GONE
             }
 
-            if(status.text != "pending"){
-                buttons.visibility = View.GONE
+            if(status.text.toString() != statusText){
+                card.visibility = View.GONE
             }
         }
 
