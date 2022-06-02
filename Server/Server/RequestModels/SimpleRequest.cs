@@ -1,6 +1,6 @@
 ﻿namespace Server.RequestModels
 {
-    public class BuildingRequest
+    public class SimpleRequest
     {
         public string Name { get; set; }
     }

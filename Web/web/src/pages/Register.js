@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import { Grid, Paper, Typography, TextField, Button } from '@mui/material'
-import axios from "axios";
+import axios from 'axios'
 import {useNavigate} from "react-router-dom";
+import Popup from 'reactjs-popup'
 import '../styles/Register.css'
 
 
@@ -10,45 +11,11 @@ function Register() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [repassword, setRePassword] = useState('')
+    const [buttonSignUp,setButtonSignUp]=useState(false)
+    const [error,setError]=useState('')
+    const closeModal = () => setButtonSignUp(false);
 
     const navigate=useNavigate()
-    function handleSignUp() {
-        if(username === ''){
-            alert('Username field is empty!')
-            return
-        }
-
-        if(email === ''){
-            alert('Email field is empty!')
-            return
-        }
-
-        if(password === ''){
-            alert('Password field is empty!')
-            return
-        }
-
-        if(password !== repassword) {
-            alert('Password missmatch!')
-            return
-        }
-
-        let user = {
-            username: username,
-            email: email,
-            password: password
-        };
-
-        axios.post('http://18.196.144.212/api/auth/register', user)
-            .then(res => {
-                alert("User was successully added")
-                console.log(res.data)
-                navigate('/login')
-            })
-            .catch(err => {
-               console.log(err);
-            });
-    }
 
     const handleEmailChange = event => {
         setEmail(event.target.value)
@@ -65,6 +32,32 @@ function Register() {
     const handleRePasswordChange = event => {
         setRePassword(event.target.value)
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        let user = {
+            username: username,
+            email: email,
+            password: password
+        }
+
+        axios.post(`http://18.196.144.212/api/auth/register`, user)
+            .then(res => {
+                console.log(res);
+                setButtonSignUp(true)
+
+            })
+            .catch(err => {
+                console.log(err)
+                setButtonSignUp(false)
+            })
+
+    }
+
+    const handleOkButton=(e)=>{
+        e.preventDefault()
+        navigate('/login')
+    }
     return (
         <div>
             <div className="registerTitle">
@@ -77,13 +70,31 @@ function Register() {
                             <br/>
                             <Typography variant='caption' gutterBottom>Please fill this form to create an account!</Typography>
                         </Grid>
-                        <form className="form">
-                            <TextField fullWidth label='Name' placeholder="Enter your name" onChange={handleUsernameChange}/>
-                            <TextField fullWidth label='Email' placeholder="Enter your email" onChange={handleEmailChange} />
-                            <TextField fullWidth type="password" label='Password' placeholder="Enter your password" onChange={handlePasswordChange}/>
-                            <TextField fullWidth type="password" label='Confirm Password' placeholder="Confirm your password" onChange={handleRePasswordChange}/>
+                        <form className="form" id="form">
+                            <TextField fullWidth label='Name' placeholder="Enter your name" onChange={handleUsernameChange}
+                                       />
+                            <TextField fullWidth label='Email' placeholder="Enter your email" onChange={handleEmailChange}
+                                      />
+                            <TextField fullWidth type="password" label='Password' placeholder="Enter your password" onChange={handlePasswordChange}
+                                      />
+                            <TextField fullWidth type="password" label='Confirm Password' placeholder="Confirm your password" onChange={handleRePasswordChange}
+                                     />
                             <div className="registerButton">
-                                <Button  type='submit' variant='contained' color='primary' onClick={handleSignUp} >Sign up</Button>
+                                <Button  type='submit' variant='contained' color='primary' onClick={handleSubmit}>Sign up</Button>
+                                <Popup className="modal" open={buttonSignUp} closeOnDocumentClick onClose={closeModal}>
+                                    <div >
+                                        <a className="modal-close" onClick={closeModal}>
+                                            &times;
+                                        </a>
+
+                                        <div className="modal-content">Your account has been created successfully. We have sent an email with a confirmation link to your email address.</div>
+                                        <div className="ok-button">
+                                            <Button variant="outlined" onClick={handleOkButton}>OK</Button>
+                                        </div>
+
+
+                                    </div>
+                                </Popup>
                             </div>
                         </form>
                     </Paper>

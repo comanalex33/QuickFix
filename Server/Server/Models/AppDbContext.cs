@@ -8,5 +8,9 @@ namespace Server.Models
         public AppDbContext(DbContextOptions<AppDbContext> options): base(options) { }
 
         public DbSet<BuildingModel> Building { get; set; }
+
+        public DbSet<CategoryModel> Category { get; set; } 
+
+        public DbSet<RequestModel> Request { get; set; }
     }
 }

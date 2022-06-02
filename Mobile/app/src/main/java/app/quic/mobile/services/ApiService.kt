@@ -1,17 +1,47 @@
 package app.quic.mobile.services
 
-import app.quic.mobile.models.LoginModel
-import app.quic.mobile.models.TokenModel
-import app.quic.mobile.models.UserModel
+import app.quic.mobile.models.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiService {
+    //Auth
     @POST("api/auth/login")
     fun login(@Body model: LoginModel): Call<TokenModel>
+    @POST("api/auth/register")
+    fun register(@Body model: RegisterModel): Call<UserModel>
+
+    //User
     @GET("api/users/{username}")
     fun getUserData(@Path("username") username: String): Call<UserModel>
+    @POST("api/users/{username}/buildings/{id}")
+    fun addBuildingToUser(@Header("Authorization") authHeader : String,
+                          @Path("username") username: String,
+                          @Path("id") id: Long): Call<UserModel>
+
+    //Building
+    @GET("/api/buildings")
+    fun getAllBuildings(): Call<List<BuildingModel>>
+    @GET("api/buildings/{id}")
+    fun getBuildingById(@Path("id") id: Long): Call<BuildingModel>
+
+    //Category
+    @GET("/api/category")
+    fun getCategories(): Call<List<CategoryModel>>
+
+    //Request
+    @POST("/api/requests")
+    fun sendRequest(@Header("Authorization") authHeader:String, @Body model: RequestNewModel): Call<RequestModel>
+    @GET("/api/requests")
+    fun getAllRequests(): Call<List<RequestModel>>
+    @GET("/api/requests/users/{username}")
+    fun getRequestsByUsername(@Path("username") username: String): Call<List<RequestModel>>
+    @PUT("/api/requests/{id}/status/{status}")
+    fun changeStatus(@Header("Authorization") authHeader:String, @Path("id") id: Long, @Path("status") status: String): Call<RequestModel>
+    @PUT("/api/requests/{id}/status/{status}/handyman/{handyman}/time/{dateTime}")
+    fun changeMoreStatus(@Header("Authorization") authHeader:String, @Path("id") id: Long, @Path("status") status: String, @Path("handyman") handyman: String, @Path("dateTime") dateTime: String): Call<RequestModel>
+
+    //Services
+    @POST("/api/services/notify/title/{title}/message/{message}/topic/{topic}")
+    fun sendNotification(@Header("Authorization") authHeader:String, @Path("title") title: String, @Path("message") message: String, @Path("topic") topic: String): Call<MessageModel>
 }

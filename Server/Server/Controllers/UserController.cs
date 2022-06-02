@@ -33,6 +33,12 @@ namespace Server.Controllers
             {
                 return Ok(await _userModel.Users.ToListAsync());
             }
+            if(roleName.Equals("none"))
+            {
+                var roleUsers = await UsersInAnyRole();
+                var allUsers = await _userModel.Users.ToListAsync();
+                return Ok(allUsers.Where(user => !roleUsers.Any(userInRole => userInRole.Id.Equals(user.Id))));
+            }
             return Ok(await _userModel.GetUsersInRoleAsync(roleName));
         }
 
@@ -50,6 +56,7 @@ namespace Server.Controllers
 
         [HttpGet]
         [Route("{username}/role")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<string>> GetUserRoles(string username)
         {
             var user = await _userModel.FindByNameAsync(username);
@@ -58,6 +65,10 @@ namespace Server.Controllers
                 return BadRequest("User " + username + " not found");
             }
             var roles = await _userModel.GetRolesAsync(user);
+            if(roles.Count == 0)
+            {
+                return Ok("none");
+            }
             return Ok(roles[0]);
         }
 
@@ -162,6 +173,23 @@ namespace Server.Controllers
                 return NotFound();
             }
             return Ok("User " + username + " deleted");
+        }
+
+        private async Task<List<User>> UsersInAnyRole()
+        {
+            var admins = await _userModel.GetUsersInRoleAsync("admin");
+            var students = await _userModel.GetUsersInRoleAsync("student");
+            var handymans = await _userModel.GetUsersInRoleAsync("handyman");
+            foreach(var student in students)
+            {
+                admins.Add(student);
+            }
+            foreach(var handyman in handymans)
+            {
+                admins.Add(handyman);
+            }
+
+            return admins.ToList();
         }
     }
 }
