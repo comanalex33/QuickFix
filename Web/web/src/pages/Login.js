@@ -15,7 +15,7 @@ function Login(){
     const navigate=useNavigate()
     const closeModal = () => setButtonSignIn(false);
 
-    function handleLoginButtonClick () {
+    function handleLoginButtonClick (e) {
         if(username===''){
             alert("Username field is empty!")
         }
@@ -36,7 +36,7 @@ function Login(){
                     console.log(decode.roles);
                     sessionStorage.setItem('token', token);
                     if(decode.roles==='admin'){
-                        navigate("")
+                        navigate("/buildings")
                     }
                     else setButtonSignIn(btn=>!btn)
                 })
