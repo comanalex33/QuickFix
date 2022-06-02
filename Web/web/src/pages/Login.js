@@ -9,19 +9,18 @@ import Popup from 'reactjs-popup'
 function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [users, setUsers] = useState([]);
     const [buttonSignIn,setButtonSignIn]=useState(false)
     let token;
 
     const navigate=useNavigate()
     const closeModal = () => setButtonSignIn(false);
 
-    function handleLoginButtonClick () {
-        if(username==''){
+    function handleLoginButtonClick (e) {
+        if(username===''){
             alert("Username field is empty!")
         }
 
-        if(password==''){
+        if(password===''){
             alert("Password field is empty!")
         }
         else {

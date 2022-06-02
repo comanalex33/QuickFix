@@ -6,7 +6,7 @@ import Navbar from "./navbar/Navbar"
 import Category from "./pages/Category"
 import Buildings from "./pages/Buildings"
 import Users from "./pages/Users"
-import {Route, Routes, BrowserRouter, Link} from "react-router-dom";
+import {Route, Routes, BrowserRouter} from "react-router-dom";
 
 function App() {
   return (

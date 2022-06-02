@@ -24,13 +24,13 @@ function Home () {
 
             <div className="features">
                         <div className="feature-1">
-                            <img src="./images/features-icon-1.png" no-repeat top center/>
+                            <img src="/images/features-icon-1.png" alt="" />
                             <h4>Easy to administrate</h4>
 
                         </div>
 
                         <div className="feature-2">
-                            <img src="./images/features-icon-3.png" no-repeat top center/>
+                            <img src="/images/features-icon-3.png" alt=""/>
                             <h4>Fastest method</h4>
 
                         </div>
